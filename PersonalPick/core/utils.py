@@ -25,15 +25,15 @@ preprocess = transforms.Compose([
     transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
 ])
 
-
 # 데이터 불러오기
-data_dir = 'assets/fashion'
+data_dir = os.path.join(os.path.dirname(__file__), 'assets/fashion')
 dataset = ImageFolder(root=data_dir, transform=preprocess)
 data_loader = torch.utils.data.DataLoader(dataset, batch_size=4, shuffle=True, num_workers=4)
 
 
 # ConvNet training 함수
 def train(model, save_at='assets/deep.pt'):
+
     # optim, loss function
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)

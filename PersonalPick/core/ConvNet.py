@@ -42,7 +42,7 @@ class ConvNet(nn.Module):
 
 
 # -- 주어진 학습 데이터를 기반으로 ConvNet training
-from utils import preprocess, generate_fashion_dataset, train, predict
+from .utils import preprocess, generate_fashion_dataset, train, predict
 from PIL import Image
 
 if __name__ == '__main__':
