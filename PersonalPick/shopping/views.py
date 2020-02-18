@@ -15,7 +15,7 @@ class ProductQuery(View):
     def post(self, request, *args, **kwargs):
         pil_img = Image.open(request.FILES['file'])
 
-        classifier = Classifier(4)
+        classifier = Classifier(4)  # parameter : 분류할 클래스의 개수
         result = classifier.classify(input_image=pil_img)
         print(result)
         return JsonResponse({'message': 'success'})
