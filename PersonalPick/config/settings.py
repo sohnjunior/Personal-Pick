@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'webpack_loader',  # webpack loader (vue-django)
-    'shopping.apps.ShoppingConfig', # shopping app
+    'shopping.apps.ShoppingConfig',  # shopping app
 ]
 
 MIDDLEWARE = [
