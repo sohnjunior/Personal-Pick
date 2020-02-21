@@ -36,7 +36,7 @@ categories = ['남성의류', '여성의류', '여성 언더웨어', '남성 언
 
 def update_shopping_data(image_per_category, mode):
     # check directory
-    asset_path = os.path.join(BASE_DIR, 'PersonalPick/shopping/assets/product')
+    asset_path = os.path.join(BASE_DIR, 'PersonalPick/core/assets/product')
     if not os.path.exists(asset_path):
         os.mkdir(asset_path)
 
@@ -50,63 +50,70 @@ def update_shopping_data(image_per_category, mode):
         if not os.path.exists(category_path):
             os.mkdir(category_path)
 
-        encCategory = urllib.parse.quote(category)
-        url = "https://openapi.naver.com/v1/search/shop?query=" + encCategory + \
-              "&display=" + str(image_per_category) + "&start=1&sort=sim"
+        # naver shopping api 에서 한번에 요청가능한 최대 개수가 100개이므로 이를 위해 나눠서 요청
+        start = 1
+        repeat = image_per_category // 100 if image_per_category // 100 else 1
+        image_per_repeat = image_per_category if image_per_category <= 100 else 100
 
-        # create request
-        request = urllib.request.Request(url)
-        request.add_header("X-Naver-Client-Id", client_id)
-        request.add_header("X-Naver-Client-Secret", client_secret)
+        for _ in range(repeat):
+            encCategory = urllib.parse.quote(category)
+            url = "https://openapi.naver.com/v1/search/shop?query=" + encCategory + \
+                  "&display=" + str(image_per_repeat) + "&start=" + str(start) + "&sort=sim"
+            start += 100
 
-        # request
-        response = urllib.request.urlopen(request)
-        rescode = response.getcode()
-        if rescode == 200:
-            response_body = response.read().decode('utf-8')
-            res_data = json.loads(response_body)
+            # create request
+            request = urllib.request.Request(url)
+            request.add_header("X-Naver-Client-Id", client_id)
+            request.add_header("X-Naver-Client-Secret", client_secret)
 
-            # for all response items
-            for item in res_data['items']:
-                img_url = item['image']
-                image_name = item['productId']
-                product_type = int(item['productType'])
+            # request
+            response = urllib.request.urlopen(request)
+            rescode = response.getcode()
+            if rescode == 200:
+                response_body = response.read().decode('utf-8')
+                res_data = json.loads(response_body)
 
-                # ignore null url
-                if img_url == "":
-                    continue
+                # for all response items
+                for item in res_data['items']:
+                    img_url = item['image']
+                    image_name = item['productId']
+                    product_type = int(item['productType'])
 
-                if mode == 'CLASSIFICATION':
-                    try:
-                        urllib.request.urlretrieve(img_url, category_path + '/' + image_name + '.jpg')
-                    except Exception as e:
-                        print(f'image saving fail [category: {category}, productID: {image_name}]')
-                elif mode == 'DB':
-                    # ignore 단종상품
-                    if product_type == 7 or product_type == 8 or product_type == 9:
+                    # ignore null url
+                    if img_url == "":
                         continue
 
-                    product_name = remove_tag(item['title'])
-                    product_link = item['link']
-                    mall_name = item['mallName']
+                    if mode == 'CLASSIFICATION':
+                        try:
+                            urllib.request.urlretrieve(img_url, category_path + '/' + image_name + '.jpg')
+                        except Exception as e:
+                            print(f'image saving fail [category: {category}, productID: {image_name}]')
+                    elif mode == 'DB':
+                        # ignore 단종상품
+                        if product_type == 7 or product_type == 8 or product_type == 9:
+                            continue
 
-                    # create new record
-                    try:
-                        c = Category.objects.get(name=category)  # find category object
-                    except ObjectDoesNotExist:
-                        c = Category(name=category)
-                        c.save()
+                        product_name = remove_tag(item['title'])
+                        product_link = item['link']
+                        mall_name = item['mallName']
 
-                    new_product = Product(title=product_name, link=product_link, image=img_url,
-                                          mallName=mall_name, category=c)
-                    new_product.save()
-        else:
-            print('Error Code:' + rescode)
+                        # create new record
+                        try:
+                            c = Category.objects.get(name=category)  # find category object
+                        except ObjectDoesNotExist:
+                            c = Category(name=category)
+                            c.save()
+
+                        new_product = Product(title=product_name, link=product_link, image=img_url,
+                                              mallName=mall_name, category=c)
+                        new_product.save()
+            else:
+                print('Error Code:' + rescode)
 
 
 # function test
 if __name__ == '__main__':
-    # update_shopping_data(image_per_category=400, mode='CLASSIFICATION')
-    update_shopping_data(image_per_category=1, mode='DB')
+    update_shopping_data(image_per_category=500, mode='CLASSIFICATION')
+    # update_shopping_data(image_per_category=1, mode='DB')
 
 
