@@ -1,18 +1,21 @@
 <template>
   <div>
     <NavBar></NavBar>
-    <UploadFile></UploadFile>
+    <IntroBox></IntroBox>
+    <InputBox></InputBox>
   </div>
 </template>
 
 <script>
-import UploadFile from './components/UploadFile'
 import NavBar from './components/NavBar'
+import IntroBox from './components/IntroBox'
+import InputBox from './components/InputBox'
 
 export default {
   components: {
     NavBar,
-    UploadFile
+    IntroBox,
+    InputBox
   }
 }
 </script>

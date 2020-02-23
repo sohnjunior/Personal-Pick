@@ -1,6 +1,6 @@
 <template>
   <div>
-  <b-navbar toggleable="lg" type="dark" variant="secondary">
+  <b-navbar toggleable="lg" type="light" variant="light">
     <b-navbar-brand href="#">Personal Pick</b-navbar-brand>
 
     <b-navbar-nav class="ml-auto">
