@@ -1,8 +1,17 @@
 <template>
   <div>
-    <b-form-file v-model="file" class="file-form" id="file" name="file" ref="file" capture="true" browse-text="파일선택" @change="handleFileUpload"></b-form-file> <br>
-    <b-img thumbnail="" alt="사용자 입력 이미지" blank="true" width="350" height="350" rounded="true" src=""></b-img>
-    <b-button pill variant="outline-secondary" size="lg" type="submit" @click="submitFile">결과보기</b-button>
+    <div class="file-upload-form">
+      <b-form-file v-model="imageData" id="file" ref="file" browse-text="파일선택" @change="handleFileUpload"></b-form-file>
+    </div> <br>
+    <div class="preview-image">
+      <img v-bind:src="imagePreview"/>
+      <!--
+      <b-img thumbnail alt="사용자 입력 이미지" blank="true" width="300" height="300" rounded="true" v-bind:src="imagePreview"></b-img>
+      -->
+    </div> <hr>
+    <div class="input-button">
+      <b-button pill variant="outline-secondary" size="lg" type="submit" @click="submitFile">결과보기</b-button>
+    </div>
   </div>
 </template>
 
@@ -15,13 +24,14 @@
 export default {
   data() {
     return {
-      file: null
+      imageData: "",
+      imagePreview: ""
     }
   },
   methods: {
     submitFile() {
       let formData = new FormData();
-      formData.append('file', this.file);
+      formData.append('file', this.imageData);
 
       axios.post('http://localhost:8000/shopping/query/', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
@@ -32,14 +42,22 @@ export default {
       });
     },
     handleFileUpload() {
-      this.file = this.$refs.file.files[0];
+      this.imageData = this.$refs.file.files[0];
+      
+      // TODO handle preview image
+      const reader = new FileReader();
+      const vm = this;
+
+      reader.onload = (e) => { vm.imagePreview = e.target.result; };
+      reader.readAsDataURL(this.imageData);
     }
   }
 }
 </script>
 
 <style scoped>
-.file-form {
-  width: 45%;
+.file-upload-form {
+  width: 25%;
+  margin: auto;
 }
 </style>
