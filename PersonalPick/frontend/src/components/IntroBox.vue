@@ -1,11 +1,9 @@
 <template>
-  <b-jumbotron header="Personal Pick" lead="당신만의 상품 추천 서비스"></b-jumbotron>
+  <b-jumbotron header="Personal Pick" lead="이미지 가반 상품 추천 서비스"></b-jumbotron>
 </template>
 
 <script>
-export default {
-
-}
+export default {}
 </script>
 
 <style>

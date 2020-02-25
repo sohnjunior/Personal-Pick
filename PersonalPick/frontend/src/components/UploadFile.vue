@@ -7,7 +7,7 @@
       <b-img thumbnail :src="imagePreview" class="preview-image" block rounded></b-img>
     </div> <br>
     <div>
-      <b-button pill variant="outline-secondary" size="lg" type="submit" @click="submitFile">결과보기</b-button>
+      <b-button type="submit" pill variant="outline-secondary" size="lg" class="submit-button" block @click="submitFile">결과보기</b-button>
     </div>
   </div>
 </template>
@@ -52,6 +52,12 @@ export default {
   },
   methods: {
     submitFile() {
+      // if file not exist
+      if(!this.imageData) {
+        alert('파일 첨부가 필요합니다');
+        return;
+      }
+
       let formData = new FormData();
       formData.append('file', this.imageData);
 
@@ -79,5 +85,9 @@ export default {
   width: 300px;
   height: 300px;
   margin: auto;
+}
+.submit-button {
+  width: 25%;
+  margin: 0 auto;
 }
 </style>
