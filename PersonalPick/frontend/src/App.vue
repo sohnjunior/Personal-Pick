@@ -2,21 +2,16 @@
   <div>
     <NavBar></NavBar>
     <IntroBox></IntroBox>
-    <InputBox></InputBox>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 import NavBar from './components/NavBar'
 import IntroBox from './components/IntroBox'
-import InputBox from './components/InputBox'
 
 export default {
-  components: {
-    NavBar,
-    IntroBox,
-    InputBox
-  }
+  components: { NavBar, IntroBox }
 }
 </script>
 

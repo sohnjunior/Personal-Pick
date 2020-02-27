@@ -57,10 +57,12 @@ export default {
         alert('파일 첨부가 필요합니다');
         return;
       }
+      // routing
+      this.$router.push({name: 'products'});
 
       let formData = new FormData();
       formData.append('file', this.imageData);
-
+     
       axios.post('http://localhost:8000/shopping/query/', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       }).then((res) => {
@@ -87,7 +89,7 @@ export default {
   margin: auto;
 }
 .submit-button {
-  width: 25%;
+  width: 20%;
   margin: 0 auto;
 }
 </style>
