@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'webpack_loader',  # webpack loader (vue-django)
     'shopping.apps.ShoppingConfig',  # shopping app
+    'rest_framework',  # django rest framework
 ]
 
 MIDDLEWARE = [

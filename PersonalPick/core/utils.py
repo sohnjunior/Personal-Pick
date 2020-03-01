@@ -31,9 +31,14 @@ dataset = ImageFolder(root=data_dir, transform=preprocess)
 data_loader = torch.utils.data.DataLoader(dataset, batch_size=4, shuffle=True, num_workers=4)
 
 
-# ConvNet training 함수
 def train(model, save_at='assets/deep.pt'):
+    """
+    Train the model
 
+    :param model: model to train
+    :param save_at: model save path
+    :return: None
+    """
     # optim, loss function
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
@@ -81,8 +86,14 @@ def train(model, save_at='assets/deep.pt'):
     torch.save(best_model_wts, save_at)
 
 
-# ConvNet을 통한 예측 함수
 def predict(model, input_image):
+    """
+    Predict class of query image
+
+    :param model: pre-trained classification model
+    :param input_image: query image
+    :return: class of image
+    """
     model.eval()  # evaluation mode
 
     # create a mini-batch
@@ -100,6 +111,7 @@ def predict(model, input_image):
             break
 
     return pred_class
+
 
 # fashion dataset 이 다음과 같은 구조를 가지도록 폴더 구조를 생성한다.
 # images.csv와 styles.csv 파일을 통해 이미지를 다운받아 생성
