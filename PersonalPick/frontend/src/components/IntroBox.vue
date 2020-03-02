@@ -6,6 +6,9 @@
 export default {}
 </script>
 
-<style>
-
+<style scoped>
+.jumbotron {
+  background-image: linear-gradient( 135deg, #FD6E6A 10%, #FFC600 100%);
+  color: azure;
+}
 </style>

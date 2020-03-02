@@ -9,7 +9,7 @@
       <b-card class="product-info">
         <b-row>
           <b-col md="6">
-            <b-card-img src="https://picsum.photos/400/400/?image=20" width="100" height="150"></b-card-img>
+            <b-card-img src="https://picsum.photos/400/400/?image=20" height="200"></b-card-img>
           </b-col>
           <b-col md="6">
             <b-card-body title="상품명" sub-title="판매 회사명" >
@@ -34,7 +34,7 @@ hr {
   width:90%
 }
 .product-info {
-  width: 70%;
+  width: 700px;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
 .product-info:hover {

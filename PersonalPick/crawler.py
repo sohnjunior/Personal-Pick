@@ -29,9 +29,12 @@ def remove_tag(text):
 
 
 # -- 카테고리 분류를 위한 이미지 크롤링
+'''
 categories = ['남성의류', '여성의류', '여성 언더웨어', '남성 언더웨어', '여성신발', '남성신발', '가방', '지갑', '시계',
               '주얼리', '모자', '기타잡화', '휴대폰', '노트북', 'PC', '태블릿PC', '모니터', '계절가전', '생활가전', '주방가전',
               '음향가전', '침실가구', '거실가구', '사무용가구']
+'''
+categories = ['사무용가구']
 
 
 def update_shopping_data(image_per_category, mode):
@@ -79,15 +82,14 @@ def update_shopping_data(image_per_category, mode):
                     image_name = item['productId']
                     product_type = int(item['productType'])
 
-                    # ignore null url
-                    if img_url == "":
-                        continue
-
                     if mode == 'CLASSIFICATION':
                         try:
-                            urllib.request.urlretrieve(img_url, category_path + '/' + image_name + '.jpg')
+                            save_path = category_path + '/' + image_name + '.jpg'
+                            if not os.path.exists(save_path):
+                                urllib.request.urlretrieve(img_url, save_path)
                         except Exception as e:
                             print(f'image saving fail [category: {category}, productID: {image_name}]')
+                            continue
                     elif mode == 'DB':
                         # ignore 단종상품
                         if product_type == 7 or product_type == 8 or product_type == 9:
@@ -113,7 +115,7 @@ def update_shopping_data(image_per_category, mode):
 
 # function test
 if __name__ == '__main__':
-    update_shopping_data(image_per_category=500, mode='CLASSIFICATION')
+    update_shopping_data(image_per_category=400, mode='CLASSIFICATION')
     # update_shopping_data(image_per_category=1, mode='DB')
 
 
