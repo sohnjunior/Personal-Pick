@@ -10,9 +10,12 @@ import copy
 import time
 import urllib.request
 import pandas as pd
-from PIL import Image
+from PIL import Image, ImageFile
 
+''' required parameter '''
+ImageFile.LOAD_TRUNCATED_IMAGES = True  # allow truncated image
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+GENERATE_DATA_PHASE = False  # fashion 데이터 셋을 생성할때를 제외하고는 False 로 설정해야 한다
 
 # 데이터 전처리
 # Handnet은 (3 x H x W) 크기의 입력 데이터를 요구하므로 사이즈가 다를경우 전처리 과정을 거쳐야 한다.
@@ -26,9 +29,10 @@ preprocess = transforms.Compose([
 ])
 
 # 데이터 불러오기
-data_dir = os.path.join(os.path.dirname(__file__), 'assets/fashion')
-dataset = ImageFolder(root=data_dir, transform=preprocess)
-data_loader = torch.utils.data.DataLoader(dataset, batch_size=4, shuffle=True, num_workers=4)
+if not GENERATE_DATA_PHASE:
+    data_dir = os.path.join(os.path.dirname(__file__), 'assets/fashion')
+    dataset = ImageFolder(root=data_dir, transform=preprocess)
+    data_loader = torch.utils.data.DataLoader(dataset, batch_size=4, shuffle=True, num_workers=4)
 
 
 def train(model, save_at='assets/deep.pt'):
@@ -113,22 +117,23 @@ def predict(model, input_image):
     return pred_class
 
 
-# fashion dataset 이 다음과 같은 구조를 가지도록 폴더 구조를 생성한다.
-# images.csv와 styles.csv 파일을 통해 이미지를 다운받아 생성
-# ex)
-# root/shirts/xxx.png
-# root/shirts/xxy.png
-# root/shirts/xxz.png
-
-# root/shoes/123.png
-# root/shoes/nsdf3.png
-
-# root/hat/asd932_.png
-
-
 def generate_fashion_dataset(root_dir=None):
+    """
+    fashion dataset 이 다음과 같은 구조를 가지도록 폴더 구조를 생성한다.
+    images.csv와 styles.csv 파일을 통해 이미지를 다운받아 생성
+
+    * ex)
+      root/shirts/xxx.png
+      root/shirts/xxy.png
+      root/shirts/xxz.png
+
+      root/shoes/123.png
+      root/shoes/nsdf3.png
+
+      root/hat/asd932_.png
+    """
     image_frame = pd.read_csv('assets/images.csv')
-    style_frame = pd.read_csv('assets/styles.csv', usecols=['id', 'masterCategory'])  # 특정 열의 데이터만 읽어온다
+    style_frame = pd.read_csv('assets/styles.csv', usecols=['id', 'articleType'])  # 특정 열의 데이터만 읽어온다
 
     total = image_frame.shape[0]
     for idx in range(total):
@@ -141,9 +146,12 @@ def generate_fashion_dataset(root_dir=None):
         if not os.path.exists(category_folder_path):
             os.mkdir(category_folder_path)
         try:
-            urllib.request.urlretrieve(img_url, category_folder_path + '/' + image_name)
+            save_path = category_folder_path + '/' + image_name
+            if not os.path.exists(save_path):
+                urllib.request.urlretrieve(img_url, save_path)
         except Exception as e:
             print(e)
             continue
 
         print(f'{idx * 100 / total:.2f} done...')
+

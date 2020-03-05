@@ -44,6 +44,6 @@ class Classifier():
         input_batch = input_tensor.unsqueeze(0)
 
         # embedded feature map
-        output = model(input_batch)
+        output = self.model(input_batch)
 
         return output

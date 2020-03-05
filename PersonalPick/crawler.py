@@ -7,6 +7,10 @@ import urllib.request
 import re
 import django
 
+from urllib.request import urlopen
+from PIL import Image
+from core.classifier import Classifier
+
 
 # Python이 실행될 때 DJANGO_SETTINGS_MODULE 라는 환경 변수에 현재 프로젝트의 settings.py 파일 경로를 등록
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
@@ -28,16 +32,13 @@ def remove_tag(text):
     return re.sub(clean, '', text)
 
 
-# -- 카테고리 분류를 위한 이미지 크롤링
-'''
-categories = ['남성의류', '여성의류', '여성 언더웨어', '남성 언더웨어', '여성신발', '남성신발', '가방', '지갑', '시계',
-              '주얼리', '모자', '기타잡화', '휴대폰', '노트북', 'PC', '태블릿PC', '모니터', '계절가전', '생활가전', '주방가전',
-              '음향가전', '침실가구', '거실가구', '사무용가구']
-'''
-categories = ['사무용가구']
+# -- 15개 카테고리 분류를 위한 이미지 크롤링
+
+categories = ['후드티', '바지', '치마', '신발', '가방', '지갑', '시계', '모자',
+              '휴대폰', '노트북', 'PC', '모니터', '계절가전', '생활가전', '주방가전']
 
 
-def update_shopping_data(image_per_category, mode):
+def update_shopping_data(image_per_category):
     # check directory
     asset_path = os.path.join(BASE_DIR, 'PersonalPick/core/assets/product')
     if not os.path.exists(asset_path):
@@ -79,43 +80,38 @@ def update_shopping_data(image_per_category, mode):
                 # for all response items
                 for item in res_data['items']:
                     img_url = item['image']
-                    image_name = item['productId']
                     product_type = int(item['productType'])
 
-                    if mode == 'CLASSIFICATION':
-                        try:
-                            save_path = category_path + '/' + image_name + '.jpg'
-                            if not os.path.exists(save_path):
-                                urllib.request.urlretrieve(img_url, save_path)
-                        except Exception as e:
-                            print(f'image saving fail [category: {category}, productID: {image_name}]')
-                            continue
-                    elif mode == 'DB':
-                        # ignore 단종상품
-                        if product_type == 7 or product_type == 8 or product_type == 9:
-                            continue
+                    # ignore 단종상품
+                    if product_type == 7 or product_type == 8 or product_type == 9:
+                        continue
 
-                        product_name = remove_tag(item['title'])
-                        product_link = item['link']
-                        mall_name = item['mallName']
+                    product_name = remove_tag(item['title'])
+                    product_link = item['link']
+                    mall_name = item['mallName']
 
-                        # create new record
-                        try:
-                            c = Category.objects.get(name=category)  # find category object
-                        except ObjectDoesNotExist:
-                            c = Category(name=category)
-                            c.save()
+                    # find Category table
+                    try:
+                        c = Category.objects.get(name=category)  # find category object
+                    except ObjectDoesNotExist:
+                        c = Category(name=category)
+                        c.save()
 
-                        new_product = Product(title=product_name, link=product_link, image=img_url,
-                                              mallName=mall_name, category=c)
-                        new_product.save()
+                    # create embedded image
+                    classifier = Classifier(37)  # parameter : 분류할 클래스의 개수
+                    pil_img = Image.open(urlopen(img_url)).convert('RGB')
+                    embedded_image = classifier.embedding(input_image=pil_img)
+
+                    # create new record
+                    new_product = Product(title=product_name, link=product_link, image=img_url,
+                                          image_embedded=embedded_image, mallName=mall_name, category=c)
+                    new_product.save()
             else:
                 print('Error Code:' + rescode)
 
 
 # function test
 if __name__ == '__main__':
-    update_shopping_data(image_per_category=400, mode='CLASSIFICATION')
-    # update_shopping_data(image_per_category=1, mode='DB')
+    update_shopping_data(image_per_category=1)
 
 
