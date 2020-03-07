@@ -51,7 +51,7 @@ def train(model, save_at='assets/deep.pt'):
     since = time.time()
     best_acc = 0.0
     best_model_wts = copy.deepcopy(model.state_dict())
-    for epoch in range(1):
+    for epoch in range(2):
 
         running_loss = 0.0
         running_corrects = 0

@@ -22,23 +22,36 @@ from django.core.exceptions import ObjectDoesNotExist
 
 # -- load secrets.json
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-with open(os.path.join(BASE_DIR, 'PersonalPick/secrets.json')) as f:
+with open(os.path.join(BASE_DIR, 'PersonalPick/config/secrets.json')) as f:
     secrets = json.load(f)
 
 
-# -- 스트링에 포함된 html 태그 삭제
 def remove_tag(text):
+    """
+    remove html tag in text
+    :param text: text for check
+    :return: text without html tag
+    """
     clean = re.compile('<.*?>')
     return re.sub(clean, '', text)
 
 
-# -- 15개 카테고리 분류를 위한 이미지 크롤링
-
-categories = ['후드티', '바지', '치마', '신발', '가방', '지갑', '시계', '모자',
-              '휴대폰', '노트북', 'PC', '모니터', '계절가전', '생활가전', '주방가전']
+# -- 35개 카테고리 분류를 위한 이미지 크롤링
+categories = [
+    '귀걸이', '남성구두', '넥타이', '드레스', '모자', '목걸이', '바지',
+    '반바지', '반지', '백팩', '벨트', '브래지어', '샌들', '선글라스',
+    '셔츠', '스니커즈', '스웨터', '스웻셔츠', '슬리퍼', '시계', '양말',
+    '여성구두', '여성상의', '운동화', '재킷', '지갑', '청바지', '치마',
+    '클러치', '트랙팬츠', '티셔츠', '팔찌', '팬티', '플랫슈즈', '핸드백'
+]
 
 
 def update_shopping_data(image_per_category):
+    """
+    update shopping data for database
+    :param image_per_category: image quantities per category
+    :return: None
+    """
     # check directory
     asset_path = os.path.join(BASE_DIR, 'PersonalPick/core/assets/product')
     if not os.path.exists(asset_path):
@@ -98,7 +111,7 @@ def update_shopping_data(image_per_category):
                         c.save()
 
                     # create embedded image
-                    classifier = Classifier(37)  # parameter : 분류할 클래스의 개수
+                    classifier = Classifier(len(categories))
                     pil_img = Image.open(urlopen(img_url)).convert('RGB')
                     embedded_image = classifier.embedding(input_image=pil_img)
 
