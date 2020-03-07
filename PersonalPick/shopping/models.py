@@ -12,7 +12,7 @@ class Product(models.Model):
     title = models.CharField(max_length=64)
     link = models.CharField(max_length=256)
     image = models.CharField(max_length=256)
-    image_embedded = models.TextField(default='')
+    image_embedded = models.BinaryField()
     mallName = models.CharField(max_length=256)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 

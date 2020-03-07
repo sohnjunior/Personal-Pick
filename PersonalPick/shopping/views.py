@@ -30,9 +30,9 @@ class ProductQuery(APIView):
         query_image = classifier.embedding(pil_img)
         targets = [{'pk': product.id, 'feature_map': product.image_embedded} for product in products]
         recommended = recommend_products(query=query_image, targets=targets, how_many=1)
-        print(recommended)
+
         # find product instances with pk and serializing it
-        param = [p.pk for p in recommended]
+        param = [p['pk'] for p in recommended]
         query_set = Product.objects.filter(id__in=param)
         serializer = ProductSerializer(query_set, many=True)
         print(serializer.data)

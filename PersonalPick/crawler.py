@@ -7,6 +7,8 @@ import urllib.request
 import re
 import django
 
+import base64
+import pickle
 from urllib.request import urlopen
 from PIL import Image
 from core.classifier import Classifier
@@ -113,11 +115,16 @@ def update_shopping_data(image_per_category):
                     # create embedded image
                     classifier = Classifier(len(categories))
                     pil_img = Image.open(urlopen(img_url)).convert('RGB')
-                    embedded_image = classifier.embedding(input_image=pil_img)
+                    feature_map = classifier.embedding(input_image=pil_img)
+
+                    # convert tensor to numpy array
+                    feature_map = feature_map.data.numpy()
+                    feature_bytes = pickle.dumps(feature_map)
+                    feature_base64 = base64.b64encode(feature_bytes)
 
                     # create new record
                     new_product = Product(title=product_name, link=product_link, image=img_url,
-                                          image_embedded=embedded_image, mallName=mall_name, category=c)
+                                          image_embedded=feature_base64, mallName=mall_name, category=c)
                     new_product.save()
             else:
                 print('Error Code:' + rescode)
