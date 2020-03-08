@@ -6,8 +6,8 @@
         <b-card-img :src="imageSrc" height="200"></b-card-img>
       </b-col>
       <b-col md="6">
-        <b-card-body :title="productTitle" :sub-title="productMallName">
-          <b-link :href="productLink" target="_blank" class="card-link">구매하러 가기</b-link>
+        <b-card-body :title="productTitle" title-tag="h5" :sub-title="productMallName" sub-title-tag="h6">
+          <br><b-link :href="productLink" target="_blank" class="card-link">구매하러 가기</b-link>
         </b-card-body>
       </b-col>
     </b-row>

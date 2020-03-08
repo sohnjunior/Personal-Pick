@@ -6,8 +6,11 @@
     <div>
       <b-img thumbnail :src="imagePreview" class="preview-image" block rounded></b-img>
     </div> <br>
-    <div>
-      <b-button type="submit" pill variant="outline-secondary" size="lg" class="submit-button" block @click="submitFile">결과보기</b-button>
+    <div v-if="!isLoading" class="submit-button">
+      <b-button type="submit" pill variant="outline-secondary" size="lg" block @click="submitFile">결과보기</b-button>
+    </div>
+    <div v-else class="loading-spinner">
+      <b-spinner type="grow" ></b-spinner>
     </div>
   </div>
 </template>
@@ -26,6 +29,7 @@ const base64Encode = data =>
 export default {
   data() {
     return {
+      isLoading: false,
       imageData: null,
       imagePreview: null
     }
@@ -54,6 +58,7 @@ export default {
         alert('파일 첨부가 필요합니다');
         return;
       }
+      this.isLoading = true;
       
       let formData = new FormData();
       formData.append('file', this.imageData);
@@ -77,7 +82,12 @@ export default {
   margin: auto;
 }
 .submit-button {
-  width: 20%;
+  width: 12rem;
+  margin: 0 auto;
+}
+.loading-spinner {
+  width: 3rem;
+  height: 3rem;
   margin: 0 auto;
 }
 </style>
