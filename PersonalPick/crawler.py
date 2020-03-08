@@ -31,6 +31,7 @@ with open(os.path.join(BASE_DIR, 'PersonalPick/config/secrets.json')) as f:
 def remove_tag(text):
     """
     remove html tag in text
+
     :param text: text for check
     :return: text without html tag
     """
@@ -51,6 +52,7 @@ categories = [
 def update_shopping_data(image_per_category):
     """
     update shopping data for database
+
     :param image_per_category: image quantities per category
     :return: None
     """
@@ -132,6 +134,6 @@ def update_shopping_data(image_per_category):
 
 # function test
 if __name__ == '__main__':
-    update_shopping_data(image_per_category=1)
+    update_shopping_data(image_per_category=20)
 
 

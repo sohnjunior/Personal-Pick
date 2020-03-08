@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="file-upload-form">
-      <b-form-file v-model="imageData" id="file" ref="file" browse-text="파일선택" @change="handleFileUpload"></b-form-file>
+      <b-form-file v-model="imageData" id="file" ref="file" browse-text="파일선택"></b-form-file>
     </div> <br>
     <div>
       <b-img thumbnail :src="imagePreview" class="preview-image" block rounded></b-img>
@@ -13,10 +13,7 @@
 </template>
 
 <script>
-import axios from 'axios'
-
-axios.defaults.xsrfCookieName = 'csrftoken';
-axios.defaults.xsrfHeaderName = 'X-CSRFToken';
+import { submitFile } from '../api/index';
 
 const base64Encode = data =>
   new Promise((resolve, reject) => {
@@ -51,29 +48,20 @@ export default {
       }
   },
   methods: {
-    submitFile() {
+    async submitFile() {
       // if file not exist
       if(!this.imageData) {
         alert('파일 첨부가 필요합니다');
         return;
       }
-      // routing
-      this.$router.push({name: 'products'});
-
+      
       let formData = new FormData();
       formData.append('file', this.imageData);
-     
-      axios.post('http://localhost:8000/shopping/query/', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      }).then((res) => {
-        console.log(res);
-      }).catch((err) => {
-        console.log(err);
-      });
+      const response = await submitFile(formData);
+      
+      this.$store.commit('updateInfo', {infos: response.data});
+      this.$router.push({name: 'products'});
     },
-    handleFileUpload() {
-      this.imageData = this.$refs.file.files[0];
-    }
   }
 }
 </script>
