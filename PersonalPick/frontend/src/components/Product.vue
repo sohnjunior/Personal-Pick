@@ -17,27 +17,30 @@
 
 <script>
 export default {
-  props: ['index'],
+  props: ['index', 'pageIndex', 'perPage'],
   computed: {
+    idx() {
+      return this.pageIndex * this.perPage + this.index - 1;
+    },
     imageSrc() {
-      return this.$store.getters.getProductsInfo[this.index-1]['image'];
+      return this.$store.getters.getProductsInfo[this.idx]['image'];
     },
     productTitle() {
-      return this.$store.getters.getProductsInfo[this.index-1]['title'];
+      return this.$store.getters.getProductsInfo[this.idx]['title'];
     },
     productMallName() {
-      return this.$store.getters.getProductsInfo[this.index-1]['mallName'];
+      return this.$store.getters.getProductsInfo[this.idx]['mallName'];
     },
     productLink() {
-      return this.$store.getters.getProductsInfo[this.index-1]['link'];
+      return this.$store.getters.getProductsInfo[this.idx]['link'];
     },
-  }
+  },
 }
 </script>
 
 <style scoped>
 .product-info {
-  width: 700px;
+  width: 33rem;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
 .product-info:hover {
