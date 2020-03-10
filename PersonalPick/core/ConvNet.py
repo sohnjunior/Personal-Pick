@@ -48,7 +48,7 @@ from PIL import Image
 if __name__ == '__main__':
     # generate_fashion_dataset(root_dir='assets/fashion')  # need to be executed only once!
 
-    num_classes = 35  # fashion dataset 의 세부 분류를 예측한다.
+    num_classes = 28  # fashion dataset 의 세부 분류를 예측한다.
 
     MODEL_PATH = 'assets/deep.pt'
     model = ConvNet(num_classes=num_classes)

@@ -14,6 +14,8 @@ class Product(models.Model):
     image = models.CharField(max_length=256)
     image_embedded = models.BinaryField()
     mallName = models.CharField(max_length=256)
+    lprice = models.CharField(max_length=64, blank=True)
+    hprice = models.CharField(max_length=64, blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
     def __str__(self):

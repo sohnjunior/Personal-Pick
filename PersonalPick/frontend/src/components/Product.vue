@@ -7,6 +7,7 @@
       </b-col>
       <b-col md="6">
         <b-card-body :title="productTitle" title-tag="h5" :sub-title="productMallName" sub-title-tag="h6">
+          <br><span>가격정보</span>
           <br><b-link :href="productLink" target="_blank" class="card-link">구매하러 가기</b-link>
         </b-card-body>
       </b-col>
@@ -34,6 +35,12 @@ export default {
     productLink() {
       return this.$store.getters.getProductsInfo[this.idx]['link'];
     },
+    productLowPrice() {
+      return this.$store.getters.getProductsInfo[this.idx]['lprice'];
+    },
+    productHighPrice() {
+      return this.$store.getters.getProductsInfo[this.idx]['hprice'];
+    }
   },
 }
 </script>

@@ -39,13 +39,12 @@ def remove_tag(text):
     return re.sub(clean, '', text)
 
 
-# -- 35개 카테고리 분류를 위한 이미지 크롤링
+# -- 28개 카테고리 분류를 위한 이미지 크롤링
 categories = [
-    '귀걸이', '남성구두', '넥타이', '드레스', '모자', '목걸이', '바지',
+    '귀걸이', '남성', '넥타이', '드레스', '모자', '목걸이', '바지',
     '반바지', '반지', '백팩', '벨트', '브래지어', '샌들', '선글라스',
-    '셔츠', '스니커즈', '스웨터', '스웻셔츠', '슬리퍼', '시계', '양말',
-    '여성구두', '여성상의', '운동화', '재킷', '지갑', '청바지', '치마',
-    '클러치', '트랙팬츠', '티셔츠', '팔찌', '팬티', '플랫슈즈', '핸드백'
+    '셔츠', '스웨터', '스웻셔츠', '시계', '양말', '여성화' '운동화',
+    '재킷', '지갑', '치마', '티셔츠', '팔찌', '팬티', '핸드백'
 ]
 
 
@@ -64,7 +63,7 @@ def update_shopping_data(image_per_category):
     client_id = secrets['client_id']
     client_secret = secrets['client_secret']
     ssl._create_default_https_context = ssl._create_unverified_context  # for https request
-
+    point = 0
     for category in categories:
         # create directory for saving
         category_path = os.path.join(asset_path, category)
@@ -105,6 +104,8 @@ def update_shopping_data(image_per_category):
 
                     product_name = remove_tag(item['title'])
                     product_link = item['link']
+                    low_price = item['lprice']
+                    high_price = item['hprice']
                     mall_name = item['mallName']
 
                     # find Category table
@@ -126,14 +127,17 @@ def update_shopping_data(image_per_category):
 
                     # create new record
                     new_product = Product(title=product_name, link=product_link, image=img_url,
-                                          image_embedded=feature_base64, mallName=mall_name, category=c)
+                                          lprice=low_price, hprice=high_price, image_embedded=feature_base64,
+                                          mallName=mall_name, category=c)
                     new_product.save()
+                    print(point)
+                    point += 1
             else:
                 print('Error Code:' + rescode)
 
 
 # function test
 if __name__ == '__main__':
-    update_shopping_data(image_per_category=20)
+    update_shopping_data(image_per_category=50)
 
 
