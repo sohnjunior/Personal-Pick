@@ -29,7 +29,7 @@ class ProductQuery(APIView):
         # compare embedded feature map
         query_image = classifier.embedding(pil_img)
         targets = [{'pk': product.id, 'feature_map': product.image_embedded} for product in products]
-        recommended = recommend_products(query=query_image, targets=targets, how_many=5)
+        recommended = recommend_products(query=query_image, targets=targets, how_many=18)
 
         # find product instances with pk and serializing it
         param = [p['pk'] for p in recommended]

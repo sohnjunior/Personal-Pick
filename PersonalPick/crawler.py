@@ -41,9 +41,9 @@ def remove_tag(text):
 
 # -- 28개 카테고리 분류를 위한 이미지 크롤링
 categories = [
-    '귀걸이', '남성', '넥타이', '드레스', '모자', '목걸이', '바지',
+    '귀걸이', '남성화', '넥타이', '드레스', '모자', '목걸이', '바지',
     '반바지', '반지', '백팩', '벨트', '브래지어', '샌들', '선글라스',
-    '셔츠', '스웨터', '스웻셔츠', '시계', '양말', '여성화' '운동화',
+    '셔츠', '스웨터', '스웻셔츠', '시계', '양말', '여성화', '운동화',
     '재킷', '지갑', '치마', '티셔츠', '팔찌', '팬티', '핸드백'
 ]
 
@@ -63,7 +63,7 @@ def update_shopping_data(image_per_category):
     client_id = secrets['client_id']
     client_secret = secrets['client_secret']
     ssl._create_default_https_context = ssl._create_unverified_context  # for https request
-    point = 0
+
     for category in categories:
         # create directory for saving
         category_path = os.path.join(asset_path, category)
@@ -130,8 +130,6 @@ def update_shopping_data(image_per_category):
                                           lprice=low_price, hprice=high_price, image_embedded=feature_base64,
                                           mallName=mall_name, category=c)
                     new_product.save()
-                    print(point)
-                    point += 1
             else:
                 print('Error Code:' + rescode)
 

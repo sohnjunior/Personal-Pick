@@ -7,8 +7,11 @@
       </b-col>
       <b-col md="6">
         <b-card-body :title="productTitle" title-tag="h5" :sub-title="productMallName" sub-title-tag="h6">
-          <br><span>가격정보</span>
-          <br><b-link :href="productLink" target="_blank" class="card-link">구매하러 가기</b-link>
+          <br>
+          <span class="price-text" v-if="productLowPrice != 0">{{ productLowPrice | currancy }}</span>
+          <span class="price-text" v-if="productHighPrice != 0"> ~ {{ productHighPrice | currancy }}</span>
+          <br>
+          <br><b-link :href="productLink" target="_blank" class="card-link">구매링크</b-link>
         </b-card-body>
       </b-col>
     </b-row>
@@ -40,8 +43,13 @@ export default {
     },
     productHighPrice() {
       return this.$store.getters.getProductsInfo[this.idx]['hprice'];
-    }
+    },
   },
+  filters: {
+    currancy(value) {
+      return new Intl.NumberFormat().format(value);
+    }
+  }
 }
 </script>
 
@@ -52,5 +60,10 @@ export default {
 }
 .product-info:hover {
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+.price-text {
+  font-family: 'Comic Sans MS';
+  font-size: 1.20rem;
+  color: rgba(228, 115, 23, 0.781);
 }
 </style>
