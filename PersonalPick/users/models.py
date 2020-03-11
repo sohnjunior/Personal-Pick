@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.base_user import BaseUserManager
+from django.utils import timezone
 
 
 class UserManager(BaseUserManager):
@@ -43,10 +44,10 @@ class User(AbstractUser):
         ('o', '알수없음'),
     )
     username = None
-    email = models.EmailField('EMAIL ADDRESS', max_length=256, unique=True)
-    nickname = models.CharField(max_length=30, blank=True)
-    date_of_birth = models.DateTimeField(blank=True, null=True)
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default='o')
+    email = models.EmailField('Email Address', max_length=256, unique=True)
+    nickname = models.CharField('Nick Name', max_length=30, blank=True)
+    date_of_birth = models.DateField('Birth day', default=timezone.now)
+    gender = models.CharField('Gender', max_length=1, choices=GENDER_CHOICES, default='o')
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
