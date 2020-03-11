@@ -2,6 +2,7 @@ import numpy as np
 import base64
 import pickle
 import torch
+from operator import itemgetter
 
 
 def l2_distance(a, b):
@@ -12,7 +13,8 @@ def l2_distance(a, b):
     :param b: image 2
     :return: distance between a and b
     """
-    return torch.sqrt(torch.sum(a - b, dim=1) ** 2)
+    val = torch.sqrt(torch.sum(a - b, dim=1) ** 2)
+    return val.item()
 
 
 def bytes_to_tensor(bytes_data):
@@ -42,6 +44,6 @@ def recommend_products(query, targets, how_many):
     """
     distance_list = [{'distance': l2_distance(query, bytes_to_tensor(target['feature_map'])), 'target': target}
                      for target in targets]
-    sorted(distance_list, key=lambda x: x['distance'])
+    distance_list.sort(key=itemgetter('distance'))
     recommend_list = [p['target'] for p in distance_list[:how_many]]
     return recommend_list

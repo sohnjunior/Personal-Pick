@@ -17,6 +17,12 @@
           <Product :index="idx + 2" :pageIndex="currentPage - 1" :perPage="imagePerPage"></Product>
         </b-col>
       </b-row>
+      <br>
+      <b-row v-if="thirdRowCount" align-h="center">
+        <b-col v-for="idx in thirdRowCount" :key="idx">
+          <Product :index="idx + 4" :pageIndex="currentPage - 1" :perPage="imagePerPage"></Product>
+        </b-col>
+      </b-row>
     </b-container>
 
     <hr>
@@ -34,7 +40,7 @@ export default {
   data () {
     return {
       currentPage: 1,
-      imagePerPage: 4,
+      imagePerPage: 6,
     }
   },
   computed: {
@@ -55,6 +61,15 @@ export default {
       if(this.perPage <= 2) {
         return 0;
       } else if(this.perPage == 3) {
+        return 1;
+      } else {
+        return 2;
+      }
+    },
+    thirdRowCount() {
+      if(this.perPaeg <= 4) {
+        return 0;
+      } else if(this.perPage == 5) {
         return 1;
       } else {
         return 2;

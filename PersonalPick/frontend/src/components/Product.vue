@@ -3,13 +3,13 @@
   <b-card class="product-info">
     <b-row>
       <b-col md="5">
-        <b-card-img :src="imageSrc" height="200"></b-card-img>
+        <b-card-img-lazy :src="imageSrc" height="200"></b-card-img-lazy>
       </b-col>
       <b-col md="6">
         <b-card-body :title="productTitle" title-tag="h5" :sub-title="productMallName" sub-title-tag="h6">
           <br>
           <span class="price-text" v-if="productLowPrice != 0">{{ productLowPrice | currancy }}</span>
-          <span class="price-text" v-if="productHighPrice != 0"> ~ {{ productHighPrice | currancy }}</span>
+          <span class="price-text" v-if="productLowPrice < productHighPrice && productHighPrice != 0"> ~ {{ productHighPrice | currancy }}</span>
           <br>
           <br><b-link :href="productLink" target="_blank" class="card-link">구매링크</b-link>
         </b-card-body>
