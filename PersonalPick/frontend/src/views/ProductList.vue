@@ -90,7 +90,7 @@ hr {
   margin: 0 auto;
 }
 .pagination-bar {
-  width: 10rem;
+  width: 20rem;
   margin: 0 auto;
 }
 </style>

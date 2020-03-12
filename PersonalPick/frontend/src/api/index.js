@@ -9,4 +9,12 @@ function submitFile(formData) {
   })
 }
 
-export { submitFile }
+function loginUser(userData) {
+  return axios.post('http://127.0.0.1:8000/rest-auth/login/', userData);
+}
+
+function logoutUser() {
+  return axios.post('http://127.0.0.1:8000/rest-auth/logout/');
+}
+
+export { submitFile, loginUser, logoutUser }

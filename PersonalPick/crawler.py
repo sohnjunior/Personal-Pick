@@ -63,7 +63,7 @@ def update_shopping_data(image_per_category):
     client_id = secrets['client_id']
     client_secret = secrets['client_secret']
     ssl._create_default_https_context = ssl._create_unverified_context  # for https request
-
+    check_point = 1  # TODO 매 호출시 체크 포인트로 확인
     for category in categories:
         # create directory for saving
         category_path = os.path.join(asset_path, category)
@@ -71,7 +71,7 @@ def update_shopping_data(image_per_category):
             os.mkdir(category_path)
 
         # naver shopping api 에서 한번에 요청가능한 최대 개수가 100개이므로 이를 위해 나눠서 요청
-        start = 1
+        start = 51
         repeat = image_per_category // 100 if image_per_category // 100 else 1
         image_per_repeat = image_per_category if image_per_category <= 100 else 100
 
@@ -79,7 +79,7 @@ def update_shopping_data(image_per_category):
             encCategory = urllib.parse.quote(category)
             url = "https://openapi.naver.com/v1/search/shop?query=" + encCategory + \
                   "&display=" + str(image_per_repeat) + "&start=" + str(start) + "&sort=sim"
-            start += 100
+            start += 100  # TODO 호출 시작 포인트
 
             # create request
             request = urllib.request.Request(url)
@@ -116,7 +116,7 @@ def update_shopping_data(image_per_category):
                         c.save()
 
                     # create embedded image
-                    classifier = Classifier(len(categories))
+                    classifier = Classifier(28)
                     pil_img = Image.open(urlopen(img_url)).convert('RGB')
                     feature_map = classifier.embedding(input_image=pil_img)
 
@@ -130,6 +130,8 @@ def update_shopping_data(image_per_category):
                                           lprice=low_price, hprice=high_price, image_embedded=feature_base64,
                                           mallName=mall_name, category=c)
                     new_product.save()
+                    print(check_point)
+                    check_point += 1
             else:
                 print('Error Code:' + rescode)
 
