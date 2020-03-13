@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 
 import { loginUser, logoutUser } from '../api/index';
+import { getUserCookie } from '../cookies';
 
 Vue.use(Vuex);
 
@@ -10,7 +11,7 @@ const store = new Vuex.Store({
     productInfoList: [],
     productCount: 0,
 
-    userEmail: '',
+    userEmail: getUserCookie() || '',
   },
   getters: {
     getProductsInfo: state => {

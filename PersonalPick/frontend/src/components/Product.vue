@@ -10,8 +10,9 @@
           <br>
           <span class="price-text" v-if="productLowPrice != 0">{{ productLowPrice | currancy }}</span>
           <span class="price-text" v-if="productLowPrice < productHighPrice && productHighPrice != 0"> ~ {{ productHighPrice | currancy }}</span>
-          <br>
-          <br><b-link :href="productLink" target="_blank" class="card-link">구매링크</b-link>
+          <br><br>
+          <b-link :href="productLink" target="_blank" class="card-link">구매링크</b-link>
+          <span class="shopping-basket">찜하기</span>
         </b-card-body>
       </b-col>
     </b-row>
@@ -65,5 +66,8 @@ export default {
   font-family: 'Comic Sans MS';
   font-size: 1.20rem;
   color: rgba(228, 115, 23, 0.781);
+}
+.shopping-basket {
+  margin-left: 2rem;
 }
 </style>

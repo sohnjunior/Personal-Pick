@@ -1,7 +1,7 @@
 <template>
  <transition name="modal">
     <div class="modal-mask">
-      <div class="modal-wrapper">
+      <div class="modal-wrapper" @click="$emit('close')">
         <div class="modal-container">
 
           <div class="modal-header">
@@ -11,6 +11,7 @@
           </div>
 
           <div class="modal-body">
+            <b-form-group>
             <b-form-input
               v-model="email"
               type="email"
@@ -23,7 +24,9 @@
             <b-form-invalid-feedback id="email-feedback">
               이메일을 입력하세요
             </b-form-invalid-feedback>
-            <br>
+            </b-form-group>
+            
+            <b-form-group>
             <b-form-input
               v-model="password"
               type="password"
@@ -35,6 +38,7 @@
             <b-form-invalid-feedback id="password-feedback">
               비밀번호를 입력하세요
             </b-form-invalid-feedback>
+            </b-form-group>
             
             <button class="modal-default-button" @click="clickButton" @keyup.enter="clickButton">
               로그인
@@ -47,6 +51,8 @@
 </template>
 
 <script>
+import { setUserCookie } from '../cookies';
+
 export default {
   data() {
     return {
@@ -69,6 +75,7 @@ export default {
         email: this.email,
         password: this.password,
       });
+      setUserCookie(this.email);
       console.log(res);
       this.$emit('login');
     }

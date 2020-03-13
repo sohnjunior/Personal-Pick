@@ -17,4 +17,8 @@ function logoutUser() {
   return axios.post('http://127.0.0.1:8000/rest-auth/logout/');
 }
 
-export { submitFile, loginUser, logoutUser }
+function registerUser(userData) {
+  return axios.post('http://127.0.0.1:8000/rest-auth/registration/', userData);
+}
+
+export { submitFile, loginUser, logoutUser, registerUser }
