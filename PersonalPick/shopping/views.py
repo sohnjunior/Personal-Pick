@@ -1,5 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import status
 
 from PIL import Image
 from core.classifier import Classifier
@@ -38,3 +39,35 @@ class ProductQuery(APIView):
 
         # response with most relevant images
         return Response(serializer.data)
+
+
+class ProductCart(APIView):
+    """
+    shopping cart
+    """
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        if user.is_authenticated:
+            product_from_cart = user.product_set.all()
+            serializer = ProductSerializer(product_from_cart, many=True)
+            return Response(serializer.data)
+        else:
+            content = {'Validation Error': 'Not authorized user'}
+            return Response(content, status=status.HTTP_401_UNAUTHORIZED)
+
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        if user.is_authenticated:
+            product_id = request.data['id']
+            try:
+                product = Product.objects.get(id=product_id)
+            except Product.DoesNotExist:
+                content = {'Internal Server Error': 'Product not found'}
+                return Response(content, status=status.HTTP_404_NOT_FOUND)
+
+            user.product_set.add(product)
+            return Response({'message': 'Successfully added'})
+        else:
+            content = {'Validation Error': 'Not authorized user'}
+            return Response(content, status=status.HTTP_401_UNAUTHORIZED)
+

@@ -71,7 +71,7 @@ def update_shopping_data(image_per_category):
             os.mkdir(category_path)
 
         # naver shopping api 에서 한번에 요청가능한 최대 개수가 100개이므로 이를 위해 나눠서 요청
-        start = 51
+        start = 101
         repeat = image_per_category // 100 if image_per_category // 100 else 1
         image_per_repeat = image_per_category if image_per_category <= 100 else 100
 

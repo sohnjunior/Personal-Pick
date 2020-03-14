@@ -21,4 +21,8 @@ function registerUser(userData) {
   return axios.post('http://127.0.0.1:8000/rest-auth/registration/', userData);
 }
 
-export { submitFile, loginUser, logoutUser, registerUser }
+function addCart(productData) {
+  return axios.post('http://127.0.0.1:8000/shopping/cart/', productData);
+}
+
+export { submitFile, loginUser, logoutUser, registerUser, addCart }

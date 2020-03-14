@@ -12,7 +12,7 @@
           <span class="price-text" v-if="productLowPrice < productHighPrice && productHighPrice != 0"> ~ {{ productHighPrice | currancy }}</span>
           <br><br>
           <b-link :href="productLink" target="_blank" class="card-link">구매링크</b-link>
-          <span class="shopping-basket">찜하기</span>
+          <span class="shopping-basket" @click="addCart">찜하기</span>
         </b-card-body>
       </b-col>
     </b-row>
@@ -21,6 +21,8 @@
 </template>
 
 <script>
+import { addCart } from '../api/index';
+
 export default {
   props: ['index', 'pageIndex', 'perPage'],
   computed: {
@@ -29,6 +31,9 @@ export default {
     },
     imageSrc() {
       return this.$store.getters.getProductsInfo[this.idx]['image'];
+    },
+    productId() {
+      return this.$store.getters.getProductsInfo[this.idx]['id'];
     },
     productTitle() {
       return this.$store.getters.getProductsInfo[this.idx]['title'];
@@ -49,6 +54,15 @@ export default {
   filters: {
     currancy(value) {
       return new Intl.NumberFormat().format(value);
+    }
+  },
+  methods: {
+    async addCart() {
+      const productData = {
+        id: this.productId
+      };
+      const response = await addCart(productData);
+      console.log(response);
     }
   }
 }
