@@ -25,4 +25,8 @@ function addCart(productData) {
   return axios.post('http://127.0.0.1:8000/shopping/cart/', productData);
 }
 
-export { submitFile, loginUser, logoutUser, registerUser, addCart }
+function getCart() {
+  return axios.get('http://127.0.0.1:8000/shopping/cart/');
+}
+
+export { submitFile, loginUser, logoutUser, registerUser, addCart, getCart }
