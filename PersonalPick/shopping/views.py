@@ -15,7 +15,7 @@ class ProductQuery(APIView):
     """
     Product recommendation request
     """
-    def post(self, request, *args, **kwargs):
+    def post(self, request, format=None):
         pil_img = Image.open(request.FILES['file'])
 
         # classify category
@@ -45,7 +45,7 @@ class ProductCart(APIView):
     """
     shopping cart
     """
-    def get(self, request, *args, **kwargs):
+    def get(self, request, format=None):
         user = request.user
         if user.is_authenticated:
             product_from_cart = user.product_set.all()
@@ -55,7 +55,7 @@ class ProductCart(APIView):
             content = {'Validation Error': 'Not authorized user'}
             return Response(content, status=status.HTTP_401_UNAUTHORIZED)
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request, format=None):
         user = request.user
         if user.is_authenticated:
             product_id = request.data['id']
@@ -67,6 +67,23 @@ class ProductCart(APIView):
 
             user.product_set.add(product)
             return Response({'message': 'Successfully added'})
+        else:
+            content = {'Validation Error': 'Not authorized user'}
+            return Response(content, status=status.HTTP_401_UNAUTHORIZED)
+
+    def delete(self, request, format=None):
+        print(request)
+        user = request.user
+        if user.is_authenticated:
+            product_id = request.data['id']
+            try:
+                product = Product.objects.get(id=product_id)
+            except Product.DoesNotExist:
+                content = {'Internal Server Error': 'Product not found'}
+                return Response(content, status=status.HTTP_404_NOT_FOUND)
+
+            user.product_set.remove(product)
+            return Response({'message': 'Successfully removed'})
         else:
             content = {'Validation Error': 'Not authorized user'}
             return Response(content, status=status.HTTP_401_UNAUTHORIZED)

@@ -2,7 +2,7 @@
   <b-container>
     <h2>My Picks</h2>
     
-    <b-table hover :items="items">
+    <b-table ref="table" hover :items="items">
       <template v-slot:cell(image)="data">
         <b-img thumbnail fluid :src="data.value" alt="image" width="140px" height="140px"></b-img>
       </template>
@@ -10,13 +10,20 @@
         <h6>{{ data.value.title }}</h6>
         <div class="mall-name">{{ data.value.mall }}</div>
         <div class="price-tag">
-          <spen v-if="data.value.lowPrice !== '0'">{{ data.value.lowPrice }}</spen>
-          <spen v-if="data.value.lowPrice !== data.value.highPrice && data.value.highPrice !== '0'"> ~ {{ data.value.highPrice }}</spen>
+          <span v-if="data.value.lowPrice !== '0'">{{ data.value.lowPrice }}</span>
+          <span v-if="data.value.lowPrice !== data.value.highPrice && data.value.highPrice !== '0'"> ~ {{ data.value.highPrice }}</span>
         </div>
       </template>
-      <template v-slot:cell(link)="data">
+      <template v-slot:cell(etc)="data">
         <div class="purchase-link">
-          <a :href="data.value" target="_blank">구매하기</a>
+          <b-col>
+            <b-row>
+              <a :href="data.value.link" target="_blank">구매하기</a>
+            </b-row>
+            <b-row>
+              <button class="delete-item" @click="deleteItem(data.value.id, data.index)"><BIconTrashFill/>삭제</button>
+            </b-row>
+          </b-col>
         </div>
       </template>
     </b-table>
@@ -24,7 +31,8 @@
 </template>
 
 <script>
-import { getCart } from '../api/index'
+import { getCart, removeCartItem } from '../api/index'
+import { BIconTrashFill } from 'bootstrap-vue'
 
 export default {
   data() {
@@ -33,6 +41,7 @@ export default {
       items: [],
     }
   },
+  components: { BIconTrashFill },
   async created() {
     const { data } = await getCart();
     this.productInfos = data;
@@ -45,10 +54,27 @@ export default {
           'lowPrice': this.productInfos[i].lprice,
           'highPrice': this.productInfos[i].hprice, 
         },
-        'link': this.productInfos[i].link,
+        'etc': {
+          'id': this.productInfos[i].id,
+          'link': this.productInfos[i].link,
+        }
       };
 
       this.items.push(obj);
+    }
+  },
+  methods: {
+    async deleteItem(id, idx) {
+      // remove item
+      const productData = {
+        data: { id: id }
+      };
+      this.items.splice(idx, 1);
+      const response = await removeCartItem(productData);
+
+      // refresh
+      this.$refs.table.refresh();
+      console.log(response);
     }
   }
 }
@@ -73,5 +99,11 @@ h6 {
 }
 .purchase-link {
   margin-top: 35px;
+}
+.delete-item {
+  background-color: transparent;
+  color: rgba(196, 38, 38, 0.815);
+  border: 0;
+  outline: 0;
 }
 </style>

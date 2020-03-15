@@ -12,7 +12,7 @@
           <span class="price-text" v-if="productLowPrice < productHighPrice && productHighPrice != 0"> ~ {{ productHighPrice | currancy }}</span>
           <br><br>
           <b-link :href="productLink" target="_blank" class="card-link">구매링크</b-link>
-          <span class="shopping-basket" @click="addCart">찜하기</span>
+          <button class="shopping-basket" @click="addCart" :disabled="!isLoggedIn"><BIconBucketFill/>담기</button>
         </b-card-body>
       </b-col>
     </b-row>
@@ -22,10 +22,17 @@
 
 <script>
 import { addCart } from '../api/index';
+import { BIconBucketFill } from 'bootstrap-vue';
 
 export default {
   props: ['index', 'pageIndex', 'perPage'],
+  components: {
+    BIconBucketFill,
+  },
   computed: {
+    isLoggedIn() {
+      return this.$store.getters.isLoggedIn;
+    },
     idx() {
       return this.pageIndex * this.perPage + this.index - 1;
     },
@@ -58,6 +65,9 @@ export default {
   },
   methods: {
     async addCart() {
+      if(!this.isLoggedIn) {
+        return;
+      }
       const productData = {
         id: this.productId
       };
@@ -82,6 +92,11 @@ export default {
   color: rgba(228, 115, 23, 0.781);
 }
 .shopping-basket {
+  color: rgba(100, 156, 209, 0.705);
+  font-size: 1.1rem;
   margin-left: 2rem;
+  background-color: #ffffff;
+  border: 0;
+  outline: 0;
 }
 </style>

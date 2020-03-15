@@ -1,12 +1,13 @@
 <template>
  <transition name="modal">
     <div class="modal-mask">
-      <div class="modal-wrapper" @click="$emit('close')">
+      <div class="modal-wrapper">
         <div class="modal-container">
 
           <div class="modal-header">
             <slot name="header">
               <h3>SIGN IN</h3>
+              <button class="exit-button" @click="$emit('close')"><BIconXSquare font-scale="1.5"/></button>
             </slot>
           </div>
 
@@ -52,8 +53,10 @@
 
 <script>
 import { setUserCookie } from '../cookies';
+import { BIconXSquare } from 'bootstrap-vue'
 
 export default {
+  components: { BIconXSquare },
   data() {
     return {
       email: '',
@@ -84,6 +87,14 @@ export default {
 </script>
 
 <style scoped>
+.exit-button {
+  width: 20px;
+  height: 20px;
+  background-color: transparent;
+  color: rgba(112, 109, 109, 0.815);
+  border: 0;
+  outline: 0;
+}
 .modal-mask {
   position: fixed;
   z-index: 9998;

@@ -4,7 +4,7 @@
       <h2>검색 결과</h2>
     </b-container>
     <hr>
-
+    
     <b-container>
       <b-row align-h="center">
         <b-col v-for="idx in firstRowCount" :key="idx">
@@ -78,7 +78,7 @@ export default {
     productCount() {
       return this.$store.getters.getProductCount;
     }
-  }
+  },
 }
 </script>
 
