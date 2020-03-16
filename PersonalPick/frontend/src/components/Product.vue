@@ -73,6 +73,15 @@ export default {
       };
       const response = await addCart(productData);
       console.log(response);
+      this.makeToast('장바구니에 추가되었습니다');
+    },
+    makeToast(message) {
+      this.$bvToast.toast(message, {
+        title: '알림',
+        variant: 'info',
+        autoHideDelay: 1500,
+        appendToast: true
+      })
     }
   }
 }

@@ -106,15 +106,16 @@ export default {
 
       // 백엔드 API 호출
       const response = await registerUser(userData);
-      console.log(response);
+      console.log(response.status);
       this.$router.push('/');
-    }
+    },
   }
 }
 </script>
 
 <style scoped>
 h2 {
+  font-family: 'Comic Sans MS';
   margin-top: 40px;
   margin-bottom: 20px;
 }

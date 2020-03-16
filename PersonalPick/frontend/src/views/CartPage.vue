@@ -96,6 +96,8 @@ h6 {
 .price-tag {
   margin-top: 15px;
   font-size: 1.1rem;
+  font-family: 'Comic Sans MS';
+  color: rgba(228, 115, 23, 0.781);
 }
 .purchase-link {
   margin-top: 35px;
