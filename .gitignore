@@ -15,7 +15,6 @@ PersonalPick/core/assets/fashion/
 PersonalPick/core/assets/images.csv
 PersonalPick/core/assets/styles.csv
 myvenv/
-node_modules/
 secrets.json
 
 # If your build process includes running collectstatic, then you probably don't need or want to include staticfiles/
@@ -216,12 +215,10 @@ fabric.properties
 ### Vuejs ###
 # Recommended template: Node.gitignore
 
-node_modules/
 npm-debug.log
 yarn-error.log
 
 .DS_Store
-node_modules
 /dist
 
 # local env files
