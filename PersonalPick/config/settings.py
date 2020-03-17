@@ -6,12 +6,11 @@ from django.core.exceptions import ImproperlyConfigured
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FRONTEND_DIR = os.path.join(BASE_DIR, 'frontend')
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-with open(os.path.join(BASE_DIR, 'config/secrets.json')) as f:
-    secrets = json.load(f)
+# 시스템 환경변수에 DJANGO_DEBUG가 설정되어있으면 True, 아니면 False이다.
+DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
+if DEBUG:
+    with open(os.path.join(BASE_DIR, 'config/secrets.json')) as f:
+        secrets = json.load(f)
 
 
 def get_secret(setting, secrets=secrets):
@@ -22,12 +21,12 @@ def get_secret(setting, secrets=secrets):
         raise ImproperlyConfigured(error_msg)
 
 
-SECRET_KEY = get_secret("SECRET_KEY")
+if DEBUG:
+    SECRET_KEY = get_secret("SECRET_KEY")
+else:
+    SECRET_KEY = os.environ("SECRET_KEY")
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.herokuapp.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -128,8 +127,6 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.0/howto/static-files/
-
 STATIC_URL = '/static/'
 
 
@@ -165,3 +162,9 @@ REST_AUTH_SERIALIZERS = {
 REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'users.serializers.CustomRegisterSerializer',
 }
+
+# integrate if local setting exist
+try:
+    from local_settings import *
+except ImportError:
+    pass

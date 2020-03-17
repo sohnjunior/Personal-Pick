@@ -23,9 +23,12 @@ from shopping.models import Product, Category
 from django.core.exceptions import ObjectDoesNotExist
 
 # -- load secrets.json
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-with open(os.path.join(BASE_DIR, 'PersonalPick/config/secrets.json')) as f:
-    secrets = json.load(f)
+DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))  # 개발 환경일 경우 secrets.json 활용
+
+if DEBUG:
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    with open(os.path.join(BASE_DIR, 'PersonalPick/config/secrets.json')) as f:
+        secrets = json.load(f)
 
 
 def remove_tag(text):
@@ -60,8 +63,12 @@ def update_shopping_data(image_per_category):
     if not os.path.exists(asset_path):
         os.mkdir(asset_path)
 
-    client_id = secrets['client_id']
-    client_secret = secrets['client_secret']
+    if DEBUG:
+        client_id = secrets['client_id']
+        client_secret = secrets['client_secret']
+    else:
+        client_id = os.environ['client_id']
+        client_secret = os.environ['client_secret']
     ssl._create_default_https_context = ssl._create_unverified_context  # for https request
     check_point = 1  # TODO 매 호출시 체크 포인트로 확인
     for category in categories:
@@ -71,7 +78,7 @@ def update_shopping_data(image_per_category):
             os.mkdir(category_path)
 
         # naver shopping api 에서 한번에 요청가능한 최대 개수가 100개이므로 이를 위해 나눠서 요청
-        start = 101  # TODO 호출 시작 포인트
+        start = 301  # TODO 호출 시작 포인트
         repeat = image_per_category // 100 if image_per_category // 100 else 1
         image_per_repeat = image_per_category if image_per_category <= 100 else 100
 
