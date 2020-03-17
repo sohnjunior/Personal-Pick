@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { addCart } from '../api/index';
+import { addCart } from '../api';
 import { BIconBucketFill } from 'bootstrap-vue';
 
 export default {

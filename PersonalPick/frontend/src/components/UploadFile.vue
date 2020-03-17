@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { submitFile } from '../api/index';
+import { submitFile } from '../api';
 
 const base64Encode = data =>
   new Promise((resolve, reject) => {

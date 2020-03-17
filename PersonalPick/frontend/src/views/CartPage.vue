@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { getCart, removeCartItem } from '../api/index'
+import { getCart, removeCartItem } from '../api'
 import { BIconTrashFill } from 'bootstrap-vue'
 
 export default {
