@@ -76,7 +76,7 @@ export default {
       this.makeToast('장바구니에 추가되었습니다');
     },
     makeToast(message) {
-      this.$bvToast.toast(message, {
+      this.$root.$bvToast.toast(message, {
         title: '알림',
         variant: 'info',
         autoHideDelay: 1500,

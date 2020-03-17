@@ -48,15 +48,25 @@ export default {
       },
       closeLogin() {
         this.showModal = false;
+        this.makeToast('로그인 되었습니다.');
       },
       logoutUser() {
         const response = this.$store.dispatch('userLogout');
         console.log(response);
         deleteCookie('user_email');
+        this.makeToast('로그아웃 되었습니다.');
         this.$router.push('/');
       },
       openCart() {
         this.$router.push('/cart');
+      },
+      makeToast(message) {
+        this.$root.$bvToast.toast(message, {
+          title: '알림',
+          variant: 'success',
+          autoHideDelay: 1000,
+          appendToast: true
+        })
       },
     },
 }

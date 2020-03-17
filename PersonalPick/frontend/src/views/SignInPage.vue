@@ -107,8 +107,17 @@ export default {
       // 백엔드 API 호출
       const response = await registerUser(userData);
       console.log(response.status);
+      this.makeToast('회원가입이 완료되었습니다!');
       this.$router.push('/');
     },
+    makeToast(message) {
+      this.$root.$bvToast.toast(message, {
+        title: '알림',
+        variant: 'success',
+        autoHideDelay: 1500,
+        appendToast: true
+      })
+    }
   }
 }
 </script>
