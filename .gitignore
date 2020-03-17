@@ -11,8 +11,11 @@ db.sqlite3
 db.sqlite3-journal
 media/
 static/
-assets/
+PersonalPick/core/assets/fashion/
+PersonalPick/core/assets/images.csv
+PersonalPick/core/assets/styles.csv
 myvenv/
+node_modules/
 secrets.json
 
 # If your build process includes running collectstatic, then you probably don't need or want to include staticfiles/
