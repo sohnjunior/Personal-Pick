@@ -19,3 +19,7 @@ Tech/framework used
 * Frontend with Vue.js(Vuex, axios)
 * UX/UI Design with Bootstrap Vue
 * RESTful API Backend with Django Rest framework
+
+License
+-------
+[MIT](https://choosealicense.com/licenses/mit/)
