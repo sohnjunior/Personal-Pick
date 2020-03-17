@@ -74,14 +74,29 @@ export default {
   },
   methods: {
     clickButton() {
-      const res = this.$store.dispatch('userLogin', {
+      this.$store.dispatch('userLogin', {
         email: this.email,
         password: this.password,
+      })
+      .then(() => {
+        this.makeToast('로그인 성공', '환영합니다.', 'success');
+        setUserCookie(this.email);
+      }) 
+      .catch(() => {
+        this.makeToast('로그인 실패', '아이디 혹은 비밀번호를 확인해주세요.', 'danger');
+      })
+      .finally(() => {
+        this.$emit('login');
       });
-      setUserCookie(this.email);
-      console.log(res);
-      this.$emit('login');
-    }
+    },
+    makeToast(title, message, variant) {
+      this.$root.$bvToast.toast(message, {
+        title: title,
+        variant: variant,
+        autoHideDelay: 1000,
+        appendToast: true
+      })
+    },
   }
 }
 </script>
