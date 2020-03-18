@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 
 import { loginUser, logoutUser } from '../api';
-import { getUserCookie } from '../cookies';
+import { getUserCookie, getAuthToken } from '../cookies';
 
 Vue.use(Vuex);
 
@@ -12,6 +12,7 @@ const store = new Vuex.Store({
     productCount: 0,
 
     userEmail: getUserCookie() || '',
+    token: getAuthToken() || '',
   },
   getters: {
     getProductsInfo: state => {
@@ -30,6 +31,9 @@ const store = new Vuex.Store({
     },
     setUserEmail(state, payload) {
       state.userEmail = payload.email;
+    },
+    setUserToken(state, payload) {
+      state.token = payload.key;
     }
   },
   actions: {
@@ -40,9 +44,10 @@ const store = new Vuex.Store({
         email: email,
         password: password
       };
-      const response = await loginUser(userData);
+      const { data, status } = await loginUser(userData);
       commit('setUserEmail', userData);
-      return response;
+      commit('setUserToken', { key: data.key });
+      return { key: data.key, status };
     },
     async userLogout({ commit }) {
       const response = await logoutUser();

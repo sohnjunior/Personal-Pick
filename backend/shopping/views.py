@@ -72,7 +72,6 @@ class ProductCart(APIView):
             return Response(content, status=status.HTTP_401_UNAUTHORIZED)
 
     def delete(self, request, format=None):
-        print(request)
         user = request.user
         if user.is_authenticated:
             product_id = request.data['id']

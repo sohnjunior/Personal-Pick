@@ -41,7 +41,7 @@
           </b-form-radio-group>
         </b-form-group>
 
-        <button class="submit-button" @click="registerUser">
+        <button class="submit-button" @click="submitUser">
           가입 하기
         </button>
       </b-form>
@@ -93,7 +93,7 @@ export default {
     }
   },
   methods: {
-    async registerUser() {
+    async submitUser() {
       // 유저 정보 json 생성
       const userData = {
          email: this.email,
@@ -104,17 +104,26 @@ export default {
          gender: this.gender,
       };
 
-      // 백엔드 API 호출
-      const response = await registerUser(userData);
-      console.log(response.status);
-      this.makeToast('회원가입이 완료되었습니다!');
-      this.$router.push('/');
+      // 백엔드 API 호출 - 발생 가능한 예외 처리
+      try{
+        await registerUser(userData);
+        console.log('회원가입 성공!');
+        this.makeToast('회원가입이 완료되었습니다!', 'success');
+        this.$router.push('/');
+      } catch(e) {
+        // error string 만들기
+        let errorString = '';
+        for(let k in e.response.data) {
+          errorString += k + ':: ' + e.response.data[k] + '\n';
+        }
+        this.makeToast(errorString, 'danger');
+      }
     },
-    makeToast(message) {
+    makeToast(message, variant) {
       this.$root.$bvToast.toast(message, {
         title: '알림',
-        variant: 'success',
-        autoHideDelay: 1500,
+        variant: variant,
+        autoHideDelay: 3000,
         appendToast: true
       })
     }

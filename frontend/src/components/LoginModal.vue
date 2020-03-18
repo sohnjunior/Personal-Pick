@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import { setUserCookie } from '../cookies';
+import { setUserCookie, setAuthToken } from '../cookies';
 import { BIconXSquare } from 'bootstrap-vue'
 
 export default {
@@ -73,21 +73,21 @@ export default {
     },
   },
   methods: {
-    clickButton() {
-      this.$store.dispatch('userLogin', {
+    async clickButton() {
+      const { key, status } = await this.$store.dispatch('userLogin', {
         email: this.email,
         password: this.password,
-      })
-      .then(() => {
+      });
+      
+      if(status == 200) {
         this.makeToast('로그인 성공', '환영합니다.', 'success');
         setUserCookie(this.email);
-      }) 
-      .catch(() => {
+        setAuthToken(key);
+      } else {
         this.makeToast('로그인 실패', '아이디 혹은 비밀번호를 확인해주세요.', 'danger');
-      })
-      .finally(() => {
-        this.$emit('login');
-      });
+      }
+
+      this.$emit('login');
     },
     makeToast(title, message, variant) {
       this.$root.$bvToast.toast(message, {

@@ -50,10 +50,12 @@ export default {
         this.showModal = false;
       },
       logoutUser() {
-        const response = this.$store.dispatch('userLogout');
-        console.log(response);
+        this.$store.dispatch('userLogout');
+        
         deleteCookie('user_email');
+        deleteCookie('user_token');
         this.makeToast('로그아웃 되었습니다.');
+
         // 메인 페이지에서 로그아웃 하는 경우에 대한 예외처리 추가
         this.$router.push('/').catch(error => {
           if(error.name != 'NavigationDuplicated') {

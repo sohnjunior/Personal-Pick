@@ -71,8 +71,7 @@ export default {
       const productData = {
         id: this.productId
       };
-      const response = await addCart(productData);
-      console.log(response);
+      await addCart(productData);
       this.makeToast('장바구니에 추가되었습니다');
     },
     makeToast(message) {
