@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'shopping.apps.ShoppingConfig',  # shopping app
+    'corsheaders',  # django-cors-headers
     'rest_framework',  # django rest framework
     'rest_framework.authtoken',
     'rest_auth',
@@ -58,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -146,9 +148,21 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 ACCOUNT_ADAPTER = 'users.adapter.CustomAccountAdapter'
 
 # django rest auth setting
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ]
+}
 REST_AUTH_SERIALIZERS = {
     'LOGIN_SERIALIZER': 'users.serializers.CustomLoginSerializer',
 }
 REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'users.serializers.CustomRegisterSerializer',
 }
+
+# django-cors-headers 설정
+CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_WHITELIST = [
+    'http://127.0.0.1:8080',
+    'http://localhost:8080',
+]
