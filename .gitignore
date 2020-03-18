@@ -11,9 +11,9 @@ db.sqlite3
 db.sqlite3-journal
 media/
 static/
-PersonalPick/core/assets/fashion/
-PersonalPick/core/assets/images.csv
-PersonalPick/core/assets/styles.csv
+backend/core/assets/fashion/
+backend/core/assets/images.csv
+backend/core/assets/styles.csv
 myvenv/
 secrets.json
 
@@ -214,7 +214,7 @@ fabric.properties
 
 ### Vuejs ###
 # Recommended template: Node.gitignore
-
+node_modules/
 npm-debug.log
 yarn-error.log
 
