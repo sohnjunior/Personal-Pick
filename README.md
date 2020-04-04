@@ -19,6 +19,7 @@ Tech/framework used
 * Frontend with Vue.js(Vuex, axios)
 * UX/UI Design with Bootstrap Vue
 * RESTful API Backend with Django Rest framework
+* Amazon RDS MySQL
 
 License
 -------
