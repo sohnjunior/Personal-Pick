@@ -23,10 +23,16 @@ def get_secret(setting, secrets=secrets):
 
 if DEBUG:
     SECRET_KEY = get_secret("SECRET_KEY")
+    DATABASE_NAME = get_secret("DATABASE_NAME")
+    DATABASE_USER = get_secret("DATABASE_USER")
+    DATABASE_PASSWORD = get_secret("DATABASE_PASSWORD")
 else:
     SECRET_KEY = os.environ("SECRET_KEY")
+    DATABASE_NAME = os.environ("DATABASE_NAME")
+    DATABASE_USER = os.environ("DATABASE_USER")
+    DATABASE_PASSWORD = os.environ("DATABASE_PASSWORD")
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -88,8 +94,15 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': DATABASE_NAME,
+        'USER': DATABASE_USER,
+        'PASSWORD': DATABASE_PASSWORD,
+        'HOST': 'db-personalpick.cxsknuyyabfv.ap-northeast-2.rds.amazonaws.com',
+        'PORT': '3306',
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
     }
 }
 

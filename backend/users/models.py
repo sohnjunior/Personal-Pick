@@ -44,7 +44,7 @@ class User(AbstractUser):
         ('o', '알수없음'),
     )
     username = None
-    email = models.EmailField('Email Address', max_length=256, unique=True)
+    email = models.EmailField('Email Address', max_length=254, unique=True)
     nickname = models.CharField('Nick Name', max_length=30, blank=True)
     date_of_birth = models.DateField('Birth day', default=timezone.now)
     gender = models.CharField('Gender', max_length=1, choices=GENDER_CHOICES, default='o')

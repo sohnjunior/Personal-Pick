@@ -16,3 +16,4 @@ class CategoryAdmin(admin.ModelAdmin):
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('title', 'mallName', 'category')
     search_fields = ('title', 'mallName')
+    list_filter = ('category',)

@@ -13,11 +13,11 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    title = models.CharField(max_length=64)
-    link = models.CharField(max_length=256)
-    image = models.CharField(max_length=256)
+    title = models.CharField(max_length=255)
+    link = models.CharField(max_length=255)
+    image = models.CharField(max_length=255)
     image_embedded = models.BinaryField()
-    mallName = models.CharField(max_length=256)
+    mallName = models.CharField(max_length=255)
     lprice = models.CharField(max_length=64, blank=True)
     hprice = models.CharField(max_length=64, blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
