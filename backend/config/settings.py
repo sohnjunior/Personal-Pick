@@ -6,8 +6,8 @@ from django.core.exceptions import ImproperlyConfigured
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FRONTEND_DIR = os.path.join(BASE_DIR, 'frontend')
 
-# 시스템 환경변수에 DJANGO_DEBUG가 설정되어있으면 True, 아니면 False이다.
-DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
+# 배포전 DEBUG 확인!
+DEBUG = False
 if DEBUG:
     with open(os.path.join(BASE_DIR, 'config/secrets.json')) as f:
         secrets = json.load(f)
@@ -32,7 +32,7 @@ else:
     DATABASE_USER = os.environ("DATABASE_USER")
     DATABASE_PASSWORD = os.environ("DATABASE_PASSWORD")
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.elasticbeanstolk.com', '127.0.0.1']
 
 
 # Application definition
