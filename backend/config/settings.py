@@ -7,7 +7,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FRONTEND_DIR = os.path.join(BASE_DIR, 'frontend')
 
 # 배포전 DEBUG 확인!
-DEBUG = False
+DEBUG = True
 if DEBUG:
     with open(os.path.join(BASE_DIR, 'config/secrets.json')) as f:
         secrets = json.load(f)

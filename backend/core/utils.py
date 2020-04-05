@@ -29,7 +29,7 @@ preprocess = transforms.Compose([
 ])
 
 # 데이터 불러오기
-if not GENERATE_DATA_PHASE:
+if GENERATE_DATA_PHASE:
     data_dir = os.path.join(os.path.dirname(__file__), 'assets/fashion')
     dataset = ImageFolder(root=data_dir, transform=preprocess)
     data_loader = torch.utils.data.DataLoader(dataset, batch_size=4, shuffle=True, num_workers=4)
@@ -108,12 +108,16 @@ def predict(model, input_image):
     _, preds = torch.max(output, 1)
 
     pred_class = ''
-    class_labels = dataset.class_to_idx
-    for label, index in class_labels.items():
+    class_labels = {
+        0: '귀걸이', 1: '남성화', 2: '넥타이', 3: '드레스', 4: '모자', 5: '목걸이', 6: '바지',
+        7: '반바지', 8: '반지', 9: '백팩', 10: '벨트', 11: '브래지어', 12: '샌들', 13: '선글라스',
+        14: '셔츠', 15: '스웨터', 16: '스웻셔츠', 17: '시계', 18: '양말', 19: '여성화', 20: '운동화',
+        21: '재킷', 22: '지갑', 23: '치마', 24: '티셔츠', 25: '팔찌', 26: '팬티', 27: '핸드백'
+    }
+    for index, label in class_labels.items():
         if index == preds:
             pred_class = label
             break
-
     return pred_class
 
 
