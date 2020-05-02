@@ -59,7 +59,7 @@ def update_shopping_data(image_per_category):
     :return: None
     """
     # check directory
-    asset_path = os.path.join(BASE_DIR, 'backend/core/assets/product')
+    asset_path = os.path.join(BASE_DIR, 'backend/core/shopping/assets/product')
     if not os.path.exists(asset_path):
         os.mkdir(asset_path)
 

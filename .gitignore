@@ -11,9 +11,9 @@ db.sqlite3
 db.sqlite3-journal
 media/
 static/
-backend/core/assets/fashion/
-backend/core/assets/images.csv
-backend/core/assets/styles.csv
+backend/shopping/assets/fashion/
+backend/shopping/assets/images.csv
+backend/shopping/assets/styles.csv
 myvenv/
 secrets.json
 .ebextensions

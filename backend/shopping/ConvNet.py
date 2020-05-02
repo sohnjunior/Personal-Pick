@@ -3,7 +3,6 @@ import torch.nn as nn
 
 import torchvision.models as models
 from torchvision.models.alexnet import model_urls
-from torch.autograd import Variable
 
 
 # 상품 이미지 분류를 위한 모델 정의 - AlexNet을 finetuning 해서 사용
@@ -41,21 +40,21 @@ class ConvNet(nn.Module):
         return x
 
 
-# -- 주어진 학습 데이터를 기반으로 ConvNet training
-from .utils import preprocess, generate_fashion_dataset, train, predict
-from PIL import Image
-
-if __name__ == '__main__':
-    # generate_fashion_dataset(root_dir='assets/fashion')  # need to be executed only once!
-
-    num_classes = 28  # fashion dataset 의 세부 분류를 예측한다.
-
-    MODEL_PATH = 'assets/deep.pt'
-    model = ConvNet(num_classes=num_classes)
-    train(model, save_at=MODEL_PATH)
-
-    IMAGE_PATH = 'assets/fashion/귀걸이/31702.jpg'
-    input_image = Image.open(IMAGE_PATH)
-    model.load_state_dict(torch.load(MODEL_PATH))
-    print(predict(model, input_image))
+# # -- 주어진 학습 데이터를 기반으로 ConvNet training
+# from .utils import preprocess, generate_fashion_dataset, train, predict
+# from PIL import Image
+#
+# if __name__ == '__main__':
+#     # generate_fashion_dataset(root_dir='assets/fashion')  # need to be executed only once!
+#
+#     num_classes = 28  # fashion dataset 의 세부 분류를 예측한다.
+#
+#     MODEL_PATH = 'assets/deep.pt'
+#     model = ConvNet(num_classes=num_classes)
+#     train(model, save_at=MODEL_PATH)
+#
+#     IMAGE_PATH = 'assets/fashion/귀걸이/31702.jpg'
+#     input_image = Image.open(IMAGE_PATH)
+#     model.load_state_dict(torch.load(MODEL_PATH))
+#     print(predict(model, input_image))
 
