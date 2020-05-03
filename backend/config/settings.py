@@ -7,7 +7,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FRONTEND_DIR = os.path.join(BASE_DIR, 'frontend')
 
 # 배포전 DEBUG 확인!
-DEBUG = True
+DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 if DEBUG:
     with open(os.path.join(BASE_DIR, 'config/secrets.json')) as f:
         secrets = json.load(f)
@@ -26,13 +26,17 @@ if DEBUG:
     DATABASE_NAME = get_secret("DATABASE_NAME")
     DATABASE_USER = get_secret("DATABASE_USER")
     DATABASE_PASSWORD = get_secret("DATABASE_PASSWORD")
+    S3_ACCESS_KEY = get_secret("S3_ACCESS_KEY")
+    S3_SECRET_KEY = get_secret("S3_SECRET_KEY")
 else:
     SECRET_KEY = os.environ("SECRET_KEY")
     DATABASE_NAME = os.environ("DATABASE_NAME")
     DATABASE_USER = os.environ("DATABASE_USER")
     DATABASE_PASSWORD = os.environ("DATABASE_PASSWORD")
+    S3_ACCESS_KEY = os.environ("S3_ACCESS_KEY")
+    S3_SECRET_KEY = os.environ("S3_SECRET_KEY")
 
-ALLOWED_HOSTS = ['.elasticbeanstolk.com', '127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -55,6 +59,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'rest_auth.registration',
     'users',
+    'storages',
 ]
 
 MIDDLEWARE = [

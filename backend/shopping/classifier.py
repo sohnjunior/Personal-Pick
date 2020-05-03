@@ -3,8 +3,7 @@ from .utils import predict, preprocess
 
 import os
 import torch
-
-MODEL_PATH = os.path.join(os.path.dirname(__file__), 'assets/deep.pt')
+from .apps import ShoppingConfig
 
 
 # -- 상품 카테고리 분류기
@@ -19,7 +18,7 @@ class Classifier():
         """
         # load model
         self.model = ConvNet(num_classes=num_classes)
-        self.model.load_state_dict(torch.load(MODEL_PATH))
+        self.model.load_state_dict(torch.load(ShoppingConfig.model_params))
         self.model.eval()
 
     def classify(self, input_image):

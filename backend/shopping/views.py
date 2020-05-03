@@ -11,6 +11,9 @@ from .utils import recommend_products
 import unicodedata
 
 
+classifier = Classifier(28)  # parameter : 분류할 클래스의 개수
+
+
 class ProductQuery(APIView):
     """
     Product recommendation request
@@ -19,7 +22,6 @@ class ProductQuery(APIView):
         pil_img = Image.open(request.FILES['file'])
 
         # classify category
-        classifier = Classifier(28)  # parameter : 분류할 클래스의 개수
         predicted = classifier.classify(input_image=pil_img)
         predicted = unicodedata.normalize('NFC', predicted)  # mac os 한글 자모 분리 이슈 해결
 
