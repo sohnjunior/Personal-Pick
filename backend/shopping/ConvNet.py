@@ -11,14 +11,14 @@ from torchvision.models.alexnet import model_urls
 # https://discuss.pytorch.org/t/torchvision-url-error-when-loading-pretrained-model/2544/2
 # model_urls['alexnet'] = model_urls['alexnet'].replace('https://', 'http://')
 #
-# original_model = models.alexnet(pretrained=True)
+original_model = models.alexnet(pretrained=True)
 
 
 class ConvNet(nn.Module):
     def __init__(self, num_classes=20):
         super(ConvNet, self).__init__()
-        # self.features = original_model.features  # original model's features
-        self.features = None
+        self.features = original_model.features  # original model's features
+
         # custumize FC layer
         self.classifier = nn.Sequential(
             nn.Dropout(),
