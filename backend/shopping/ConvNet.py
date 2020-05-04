@@ -17,8 +17,8 @@ from torchvision.models.alexnet import model_urls
 class ConvNet(nn.Module):
     def __init__(self, num_classes=20):
         super(ConvNet, self).__init__()
-        self.features = original_model.features  # original model's features
-
+        # self.features = original_model.features  # original model's features
+        self.features = None
         # custumize FC layer
         self.classifier = nn.Sequential(
             nn.Dropout(),
