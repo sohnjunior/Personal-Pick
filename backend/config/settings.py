@@ -30,12 +30,12 @@ if DEBUG:
     S3_ACCESS_KEY = get_secret("S3_ACCESS_KEY")
     S3_SECRET_KEY = get_secret("S3_SECRET_KEY")
 else:
-    SECRET_KEY = os.environ("SECRET_KEY")
-    DATABASE_NAME = os.environ("DATABASE_NAME")
-    DATABASE_USER = os.environ("DATABASE_USER")
-    DATABASE_PASSWORD = os.environ("DATABASE_PASSWORD")
-    S3_ACCESS_KEY = os.environ("S3_ACCESS_KEY")
-    S3_SECRET_KEY = os.environ("S3_SECRET_KEY")
+    SECRET_KEY = os.environ.get("SECRET_KEY")
+    DATABASE_NAME = os.environ.get("DATABASE_NAME")
+    DATABASE_USER = os.environ.get("DATABASE_USER")
+    DATABASE_PASSWORD = os.environ.get("DATABASE_PASSWORD")
+    S3_ACCESS_KEY = os.environ.get("S3_ACCESS_KEY")
+    S3_SECRET_KEY = os.environ.get("S3_SECRET_KEY")
 
 ALLOWED_HOSTS = ['*']
 
