@@ -1,10 +1,12 @@
 from django.apps import AppConfig
 from django.conf import settings
+import boto3
+from io import BytesIO
 
 
 class ShoppingConfig(AppConfig):
     name = 'shopping'
-    model_params = None
+    # model_params = None
     #
     # def ready(self):
     #     """

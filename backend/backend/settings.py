@@ -9,17 +9,17 @@ FRONTEND_DIR = os.path.join(BASE_DIR, 'frontend')
 # 배포전 DEBUG 확인!
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 if DEBUG:
-    with open(os.path.join(BASE_DIR, 'config/secrets.json')) as f:
+    with open(os.path.join(BASE_DIR, 'backend/secrets.json')) as f:
         secrets = json.load(f)
 
 
 # 배포시에는 주석 처리
-# def get_secret(setting, secrets=secrets):
-#     try:
-#         return secrets[setting]
-#     except KeyError:
-#         error_msg = f'Set the {setting} env variable.'
-#         raise ImproperlyConfigured(error_msg)
+def get_secret(setting, secrets=secrets):
+    try:
+        return secrets[setting]
+    except KeyError:
+        error_msg = f'Set the {setting} env variable.'
+        raise ImproperlyConfigured(error_msg)
 
 
 if DEBUG:
@@ -76,7 +76,7 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
 
-ROOT_URLCONF = 'config.urls'
+ROOT_URLCONF = 'backend.urls'
 
 TEMPLATES = [
     {
@@ -94,7 +94,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'config.wsgi.application'
+WSGI_APPLICATION = 'backend.wsgi.application'
 
 
 # Database
