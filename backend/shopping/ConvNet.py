@@ -11,7 +11,7 @@ from torchvision.models.alexnet import model_urls
 # https://discuss.pytorch.org/t/torchvision-url-error-when-loading-pretrained-model/2544/2
 # model_urls['alexnet'] = model_urls['alexnet'].replace('https://', 'http://')
 #
-original_model = models.alexnet(pretrained=True)
+original_model = models.alexnet(pretrained=False)
 
 
 class ConvNet(nn.Module):
