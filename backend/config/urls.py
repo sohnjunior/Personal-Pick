@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 
 from django.views.generic import TemplateView
 
@@ -16,4 +16,9 @@ urlpatterns = [
     # django-rest-auth
     path('rest-auth/', include('rest_auth.urls')),
     path('rest-auth/registration/', include('rest_auth.registration.urls')),
+]
+
+# history mode 지원
+urlpatterns += [
+     re_path('^.*$', TemplateView.as_view(template_name='index.html')),
 ]
