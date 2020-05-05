@@ -13,13 +13,13 @@ if DEBUG:
         secrets = json.load(f)
 
 
-# # 배포시에는 주석 처리
-# def get_secret(setting, secrets=secrets):
-#     try:
-#         return secrets[setting]
-#     except KeyError:
-#         error_msg = f'Set the {setting} env variable.'
-#         raise ImproperlyConfigured(error_msg)
+# 배포시에는 주석 처리
+def get_secret(setting, secrets=secrets):
+    try:
+        return secrets[setting]
+    except KeyError:
+        error_msg = f'Set the {setting} env variable.'
+        raise ImproperlyConfigured(error_msg)
 
 
 if DEBUG:
