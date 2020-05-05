@@ -1,6 +1,6 @@
 const path = require("path");
 
 module.exports = {
-  outputDir: path.resolve(__dirname, "../backend/templates"),
+  outputDir: path.resolve(__dirname, "../config/templates"),
   assetsDir: "../static"
 }

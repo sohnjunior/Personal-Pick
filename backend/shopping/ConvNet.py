@@ -2,24 +2,19 @@ import torch
 import torch.nn as nn
 
 import torchvision.models as models
-from torchvision.models.alexnet import model_urls
-
 
 # 상품 이미지 분류를 위한 모델 정의 - AlexNet을 finetuning 해서 사용
-# https://github.com/pytorch/vision/blob/master/torchvision/models/alexnet.py
-
-# https://discuss.pytorch.org/t/torchvision-url-error-when-loading-pretrained-model/2544/2
+# from torchvision.models.alexnet import model_urls
 # model_urls['alexnet'] = model_urls['alexnet'].replace('https://', 'http://')
-#
-original_model = models.alexnet(pretrained=False)
 
 
 class ConvNet(nn.Module):
     def __init__(self, num_classes=20):
         super(ConvNet, self).__init__()
-        self.features = original_model.features  # original model's features
+        # 학습시에는 pretrained = True로 설정해서 했음
+        self.features = models.alexnet(pretrained=False).features  # original model's features
 
-        # custumize FC layer
+        # customize FC layer
         self.classifier = nn.Sequential(
             nn.Dropout(),
             nn.Linear(256 * 6 * 6, 4096),

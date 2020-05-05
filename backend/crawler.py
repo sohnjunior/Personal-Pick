@@ -15,7 +15,7 @@ from core.classifier import Classifier
 
 
 # Python이 실행될 때 DJANGO_SETTINGS_MODULE 라는 환경 변수에 현재 프로젝트의 settings.py 파일 경로를 등록
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 # 이제 장고를 가져와 장고 프로젝트를 사용할 수 있도록 환경을 만듬
 django.setup()
 
@@ -27,7 +27,7 @@ DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))  # 개발 환경일 경우 se
 
 if DEBUG:
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    with open(os.path.join(BASE_DIR, 'backend/backend/secrets.json')) as f:
+    with open(os.path.join(BASE_DIR, 'backend/config/secrets.json')) as f:
         secrets = json.load(f)
 
 

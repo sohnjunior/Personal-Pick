@@ -9,7 +9,7 @@ FRONTEND_DIR = os.path.join(BASE_DIR, 'frontend')
 # 배포전 DEBUG 확인!
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 if DEBUG:
-    with open(os.path.join(BASE_DIR, 'backend/secrets.json')) as f:
+    with open(os.path.join(BASE_DIR, 'config/secrets.json')) as f:
         secrets = json.load(f)
 
 
@@ -76,7 +76,7 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
 
-ROOT_URLCONF = 'backend.urls'
+ROOT_URLCONF = 'config.urls'
 
 TEMPLATES = [
     {
@@ -94,7 +94,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'backend.wsgi.application'
+WSGI_APPLICATION = 'config.wsgi.application'
 
 
 # Database
