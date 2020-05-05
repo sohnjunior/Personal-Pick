@@ -5,6 +5,8 @@ import os
 import torch
 from .apps import ShoppingConfig
 
+MODEL_PATH = os.path.join(os.path.dirname(__file__), 'assets/deep.pt')
+
 
 # -- 상품 카테고리 분류기
 class Classifier():
@@ -18,7 +20,7 @@ class Classifier():
         """
         # load model
         self.model = ConvNet(num_classes=num_classes)
-        self.model.load_state_dict(torch.load(ShoppingConfig.model_params))
+        self.model.load_state_dict(torch.load(MODEL_PATH))
         self.model.eval()
 
     def classify(self, input_image):
