@@ -37,7 +37,7 @@ else:
     S3_ACCESS_KEY = os.environ.get("S3_ACCESS_KEY")
     S3_SECRET_KEY = os.environ.get("S3_SECRET_KEY")
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['.ap-northeast-2.compute.amazonaws.com']
 
 
 # Application definition
@@ -66,7 +66,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # Heroku white noise 설정
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -154,7 +153,6 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 # custom user setting
@@ -192,8 +190,3 @@ CORS_ORIGIN_WHITELIST = [
     'http://127.0.0.1:8080',
     'http://localhost:8080',
 ]
-
-# heroku database 설정
-import dj_database_url
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env)
