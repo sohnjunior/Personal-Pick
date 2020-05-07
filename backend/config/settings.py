@@ -7,13 +7,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FRONTEND_DIR = os.path.join(BASE_DIR, 'frontend')
 
 # 배포전 DEBUG 확인!
-DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
-if DEBUG:
-    with open(os.path.join(BASE_DIR, 'config/secrets.json')) as f:
-        secrets = json.load(f)
+DEBUG = False
+
+with open(os.path.join(BASE_DIR, 'config/secrets.json')) as f:
+    secrets = json.load(f)
 
 
-# 배포시에는 주석 처리
 def get_secret(setting, secrets=secrets):
     try:
         return secrets[setting]
@@ -22,16 +21,10 @@ def get_secret(setting, secrets=secrets):
         raise ImproperlyConfigured(error_msg)
 
 
-if DEBUG:
-    SECRET_KEY = get_secret("SECRET_KEY")
-    DATABASE_NAME = get_secret("DATABASE_NAME")
-    DATABASE_USER = get_secret("DATABASE_USER")
-    DATABASE_PASSWORD = get_secret("DATABASE_PASSWORD")
-else:
-    SECRET_KEY = os.environ.get("SECRET_KEY")
-    DATABASE_NAME = os.environ.get("DATABASE_NAME")
-    DATABASE_USER = os.environ.get("DATABASE_USER")
-    DATABASE_PASSWORD = os.environ.get("DATABASE_PASSWORD")
+SECRET_KEY = get_secret("SECRET_KEY")
+DATABASE_NAME = get_secret("DATABASE_NAME")
+DATABASE_USER = get_secret("DATABASE_USER")
+DATABASE_PASSWORD = get_secret("DATABASE_PASSWORD")
 
 
 ALLOWED_HOSTS = ['.ap-northeast-2.compute.amazonaws.com', '127.0.0.1']
@@ -146,6 +139,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 
 # custom user setting
 AUTH_USER_MODEL = 'users.User'
