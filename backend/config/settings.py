@@ -27,17 +27,14 @@ if DEBUG:
     DATABASE_NAME = get_secret("DATABASE_NAME")
     DATABASE_USER = get_secret("DATABASE_USER")
     DATABASE_PASSWORD = get_secret("DATABASE_PASSWORD")
-    S3_ACCESS_KEY = get_secret("S3_ACCESS_KEY")
-    S3_SECRET_KEY = get_secret("S3_SECRET_KEY")
 else:
     SECRET_KEY = os.environ.get("SECRET_KEY")
     DATABASE_NAME = os.environ.get("DATABASE_NAME")
     DATABASE_USER = os.environ.get("DATABASE_USER")
     DATABASE_PASSWORD = os.environ.get("DATABASE_PASSWORD")
-    S3_ACCESS_KEY = os.environ.get("S3_ACCESS_KEY")
-    S3_SECRET_KEY = os.environ.get("S3_SECRET_KEY")
 
-ALLOWED_HOSTS = ['.ap-northeast-2.compute.amazonaws.com']
+
+ALLOWED_HOSTS = ['.ap-northeast-2.compute.amazonaws.com', '127.0.0.1']
 
 
 # Application definition

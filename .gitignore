@@ -10,9 +10,7 @@ local_settings.py
 db.sqlite3
 db.sqlite3-journal
 media/
-backend/shopping/assets/fashion/
-backend/shopping/assets/images.csv
-backend/shopping/assets/styles.csv
+backend/shopping/assets/
 myvenv/
 secrets.json
 .ebextensions
