@@ -2,14 +2,14 @@ import axios from 'axios';
 import store from '../store';
 
 const instance = axios.create({
-  baseURL: 'http://127.0.0.1:8000/',
+  baseURL: 'http://ec2-3-34-48-227.ap-northeast-2.compute.amazonaws.com/',
   xsrfCookieName: 'csrftoken',
   xsrfHeaderName: 'X-CSRFToken',
 });
 
 // axios delete 수행 시 header에 포함이 안되서 새로운 인스턴스 생성
 const newInstance = axios.create({
-  baseURL: 'http://127.0.0.1:8000/',
+  baseURL: 'http://ec2-3-34-48-227.ap-northeast-2.compute.amazonaws.com/',
   xsrfCookieName: 'csrftoken',
   xsrfHeaderName: 'X-CSRFToken',
 });
