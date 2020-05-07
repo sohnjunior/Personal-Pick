@@ -1,6 +1,7 @@
 Personal Pick
 ==============
-Product recommendation service using image similarity
+Product recommendation service using image similarity <br>
+http://personal-pick.s3-website.ap-northeast-2.amazonaws.com
 
 Screenshots
 -----------
@@ -20,6 +21,7 @@ Tech/framework used
 * UX/UI Design with Bootstrap Vue
 * RESTful API Backend with Django Rest framework
 * Amazon RDS MySQL
+* Deploy with AWS EC2 & S3
 
 License
 -------
